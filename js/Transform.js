@@ -4,9 +4,11 @@
 */
 
 const mishuTransform = {
-    position: [0,0,0],
+
+    // initialize so it's in front of the camera
+    position: [0,0,1],
     
-    scale: [1,1,1],
+    scale: [.1,.1,.1],
 
     setPosition: function(x, y, z) {
         this.position = [x,y,z];
