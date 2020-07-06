@@ -8,7 +8,7 @@ This was created as our capstone project for Fullstack Academy.
 <br>[Tiffany Sanchez](https://github.com/tiffany-sj)
 <br>[Simon Tse](https://github.com/stse416)
 <br>[Frederick Tetteh](https://github.com/just-kwesi)
-<br>[Andres Gomez](github.com/tiredamage42)
+<br>[Andres Gomez](https://github.com/tiredamage42)
 
 **Important Docs:**
 <br>[WireFrames](https://framer.com/projects/Mishu-Studios-1eGcJB0tFhQ2IfGqBOUn) 
