@@ -10,13 +10,21 @@ import React from 'react'
 import { ViroQuad, ViroMaterials } from "react-viro";
 
 import sceneReference from './SceneReference';
-import debugButtonsFramework from './DebugButtonsFramework';
 
 // the size of the visual that renders
 // where we are detecting a plane
 const TARGET_VISUAL_SIZE = .1;
 
 const planeSelector = {
+
+    // the point in 3d space that the camera is pointing towards 
+    // that lies on a flat surface
+    // (null if none found)
+    hitPoint: null,
+
+    hasFlatSurfacePoint() {
+        return !!this.hitPoint;
+    },
 
     // are we looking for a plane ?
     enabled: false,
@@ -73,30 +81,6 @@ const planeSelector = {
 }
 
 planeSelector.onCameraARHitTest = planeSelector.onCameraARHitTest.bind(planeSelector);
-
-
-/*
-===========================
-    DEBUG ONLY
-===========================
-*/
-
-// add buttons to the debug menu to disable and enable the plane selector
-planeSelector.registerOnEnableCallback((enabled) => {
-    debugButtonsFramework.removeButton(`${enabled ? "Enable" : "Disable"} Plane Select`)
-    debugButtonsFramework.addButton(`${enabled ? "Disable" : "Enable"} Plane Select`, () => {
-        planeSelector.enable(!enabled);
-    });
-});
-/*
-===========================
-    DEBUG ONLY
-===========================
-*/
-
-
-
-
 
 ViroMaterials.createMaterials({
     placeGhostMaterial: {

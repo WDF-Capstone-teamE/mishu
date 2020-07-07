@@ -21,7 +21,7 @@ const mishuTransform = {
     },
     setRotation: function(x, y, z) {
         this.rotation = [x,y,z];
-        
+
         // update the scene so react re-renders
         sceneReference.updateScene();
     },
@@ -33,6 +33,4 @@ const mishuTransform = {
     }
 }
 
-module.exports = {
-    mishuTransform
-}
+module.exports = mishuTransform;

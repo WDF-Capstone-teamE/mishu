@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import { mishuTransform } from './Transform'
+import mishuTransform from './Transform'
 
 import { ViroBox, ViroMaterials } from "react-viro";
 
