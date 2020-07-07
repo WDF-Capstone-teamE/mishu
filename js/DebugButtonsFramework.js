@@ -18,12 +18,13 @@ const debugButtonsFramework = {
     removeButton (name) {
         this.buttons = this.buttons.filter(b => b.name !== name);
     },
-    drawDebugButtonMenu (updateComponent) {
+
+    // need parent components update view callback
+    drawDebugButtonMenu (updateView) {
         return this.buttons.map(b => <Button key={b.name} title={b.name} onPress={() => {
             b.callback();
-            updateComponent();
-        }
-        }/>);
+            updateView();
+        }}/>);
     }
 };
 

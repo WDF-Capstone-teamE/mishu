@@ -10,8 +10,6 @@ import sceneReference from './SceneReference';
 
 import planeSelector from './PlaneSelection';
 
-// import debugButtonsFramework from './DebugButtonsFramework'
-
 export default class HelloWorldSceneAR extends Component {
 
   constructor() {
@@ -38,8 +36,10 @@ export default class HelloWorldSceneAR extends Component {
     function renderInnerScene () {
       return (
         <React.Fragment>
+
           {/* Draw our mishu component */}
           <MishuComponent />
+
         </React.Fragment>
       );
     }
@@ -79,13 +79,11 @@ export default class HelloWorldSceneAR extends Component {
       <React.Fragment>
 
         { 
-          planeSelector.planeSelectionEnabled ? 
+          planeSelector.enabled ? 
             renderSceneWithHitDetection() : 
             renderSceneWithoutHitDetection() 
         }
 
-        {/* render the debug menu if any debug buttons exist */}
-        {/* { debugButtonsFramework.drawDebugButtonMenu() } */}
       </React.Fragment>
     )
   }
