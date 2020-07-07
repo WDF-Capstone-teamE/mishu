@@ -10,6 +10,8 @@ import sceneReference from './SceneReference';
 
 import planeSelector from './PlaneSelection';
 
+// import debugButtonsFramework from './DebugButtonsFramework'
+
 export default class HelloWorldSceneAR extends Component {
 
   constructor() {
@@ -73,9 +75,19 @@ export default class HelloWorldSceneAR extends Component {
       );  
     }
 
-    return planeSelector.planeSelectionEnabled ? 
-      renderSceneWithHitDetection() : 
-      renderSceneWithoutHitDetection();
+    return (
+      <React.Fragment>
+
+        { 
+          planeSelector.planeSelectionEnabled ? 
+            renderSceneWithHitDetection() : 
+            renderSceneWithoutHitDetection() 
+        }
+
+        {/* render the debug menu if any debug buttons exist */}
+        {/* { debugButtonsFramework.drawDebugButtonMenu() } */}
+      </React.Fragment>
+    )
   }
 
   _onInitialized(state, reason) {

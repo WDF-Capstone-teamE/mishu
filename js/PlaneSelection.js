@@ -6,11 +6,32 @@ import React from 'react'
 import { ViroQuad, ViroMaterials } from "react-viro";
 import sceneReference from './SceneReference';
 
+
+import debugButtonsFramework from './DebugButtonsFramework';
+
 const TARGET_VISUAL_SIZE = .1;
 
 const planeSelector = {
 
     planeSelectionEnabled: true,
+
+    planeSelectionToggledCallbacks: [],
+    
+    onPlaneSelectionToggled(callback) {
+        // initialize the callback to current state
+        callback(this.planeSelectionEnabled);
+        
+        this.planeSelectionToggledCallbacks.push(callback);
+    },
+        
+
+    enablePlaneSelection(enabled) {
+        this.planeSelectionEnabled = enabled;
+
+        this.planeSelectionToggledCallbacks.forEach(cb => cb(enabled));
+
+        // sceneReference.updateScene();
+    },
     
     // visual marker as to where the ray's "hit point" is
     renderHitPointGhost () {
@@ -39,6 +60,20 @@ const planeSelector = {
 }
 
 planeSelector.onCameraARHitTest = planeSelector.onCameraARHitTest.bind(planeSelector);
+planeSelector.enablePlaneSelection = planeSelector.enablePlaneSelection.bind(planeSelector);
+
+planeSelector.enablePlaneSelection(false);
+
+
+
+// DEBUG ONLY
+planeSelector.onPlaneSelectionToggled((enabled) => {
+    debugButtonsFramework.removeButton(`${enabled ? "Enable" : "Disable"} Plane Select`)
+    debugButtonsFramework.addButton(`${enabled ? "Disable" : "Enable"} Plane Select`, () => {
+        planeSelector.enablePlaneSelection(!enabled);
+    });
+});
+// DEBUG ONLY
 
 ViroMaterials.createMaterials({
     placeGhostMaterial: {
