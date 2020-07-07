@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 
 import { ViroARScene, ViroAmbientLight, ViroConstants } from 'react-viro';
 
-import MishuComponent from './MishuComponent'
+import MishuComponent from './MishuComponent';
+
+import sceneReference from './SceneReference';
 
 export default class HelloWorldSceneAR extends Component {
 
@@ -18,7 +20,12 @@ export default class HelloWorldSceneAR extends Component {
 
   render() {
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized} >
+
+      // set the global scene reference so we can have access
+      // to it in other scripts
+      <ViroARScene 
+        ref={ref => { sceneReference.setReference(ref); }}
+        onTrackingUpdated={this._onInitialized} >
       
         <ViroAmbientLight color={"#aaaaaa"} />
         
