@@ -8,10 +8,13 @@
  */
 
 import React, { Component } from 'react';
+import { Provider } from "react-redux";
 
-import { ViroARSceneNavigator } from 'react-viro';
+// import { ViroARSceneNavigator } from 'react-viro';
 
-var InitialARScene = require('./js/HelloWorldSceneAR');
+import WelcomeScreen from './js/screens/WelcomeScreen'
+
+// var InitialARScene = require('./js/HelloWorldSceneAR');
 
 export default class ViroSample extends Component {
   constructor() {
@@ -20,7 +23,16 @@ export default class ViroSample extends Component {
   }
 
   render() {
-    return <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene}} />
+    return (
+      <Provider>
+        {/* <ViroARSceneNavigator
+          {...this.state.sharedProps}
+          initialScene={{ scene: InitialARScene }}
+        /> */}
+        <WelcomeScreen />
+      </Provider>
+    );
+    
   }
 }
 
