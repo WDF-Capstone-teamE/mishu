@@ -9,6 +9,8 @@ import sceneReference from './SceneReference';
 const TARGET_VISUAL_SIZE = .1;
 
 const planeSelector = {
+
+    planeSelectionEnabled: true,
     
     // visual marker as to where the ray's "hit point" is
     renderHitPointGhost () {

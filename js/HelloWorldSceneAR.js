@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { ViroARScene, ViroAmbientLight, ViroConstants } from 'react-viro';
+import { ViroARScene, ViroConstants } from 'react-viro';
 
 import MishuComponent from './MishuComponent';
 
@@ -28,19 +28,54 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   render() {
-    return (
-      <ViroARScene 
-        onCameraARHitTest={planeSelector.onCameraARHitTest}
-        onTrackingUpdated={this._onInitialized} >
-        
-        { planeSelector.renderHitPointGhost() }
-        
-        {/* Draw our mishu component */}
-        <MishuComponent />
 
-      </ViroARScene>
+    /*
+      the rest of the rendering logic that doesn't have anything
+      to do with the plane detection logic
+    */
+    function renderInnerScene () {
+      return (
+        <React.Fragment>
+          {/* Draw our mishu component */}
+          <MishuComponent />
+        </React.Fragment>
+      );
+    }
 
-    );
+    /*
+      since the only way to get continuous hit detection for placement 
+      is through a callback on the ViroARScene, we need to have two versions 
+      of rendering the scene,
+
+      one where we're checking every "frame" for plane detection
+      
+      and one when we're not, so we dont check for hit detection 
+      when we dont need it
+    */
+    const renderSceneWithHitDetection = () => {
+      return (
+        <ViroARScene 
+          onCameraARHitTest={planeSelector.onCameraARHitTest}
+          onTrackingUpdated={this._onInitialized} >
+          
+          { planeSelector.renderHitPointGhost() }
+          
+          { renderInnerScene() }
+  
+        </ViroARScene>
+      );
+    }
+    const renderSceneWithoutHitDetection = () => {
+      return (
+        <ViroARScene onTrackingUpdated={this._onInitialized} >
+          { renderInnerScene() }
+        </ViroARScene>
+      );  
+    }
+
+    return planeSelector.planeSelectionEnabled ? 
+      renderSceneWithHitDetection() : 
+      renderSceneWithoutHitDetection();
   }
 
   _onInitialized(state, reason) {
