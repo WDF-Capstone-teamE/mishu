@@ -6,7 +6,7 @@
 const mishuTransform = {
 
     // initialize so it's in front of the camera
-    position: [0,0,1],
+    position: [0,0,-1],
     
     scale: [.1,.1,.1],
 
