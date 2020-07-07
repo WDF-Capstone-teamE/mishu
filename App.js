@@ -7,33 +7,29 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Provider } from "react-redux";
+import store from "./js/store";
 
 // import { ViroARSceneNavigator } from 'react-viro';
 
-import WelcomeScreen from './js/screens/WelcomeScreen'
+import App from "./js/app";
 
 // var InitialARScene = require('./js/HelloWorldSceneAR');
 
 export default class ViroSample extends Component {
   constructor() {
     super();
-    this.state = {}
+    this.state = {};
   }
 
   render() {
     return (
-      <Provider>
-        {/* <ViroARSceneNavigator
-          {...this.state.sharedProps}
-          initialScene={{ scene: InitialARScene }}
-        /> */}
-        <WelcomeScreen />
+      <Provider store={store}>
+        <App />
       </Provider>
     );
-    
   }
 }
 
-module.exports = ViroSample
+module.exports = ViroSample;

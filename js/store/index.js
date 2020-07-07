@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from "redux";
+import pet from './petSelection'
 
-const reducer = combineReducers({});
+const reducer = combineReducers({pet});
 
 const store = createStore(reducer);
 
