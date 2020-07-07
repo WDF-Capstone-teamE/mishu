@@ -8,19 +8,18 @@ import MishuComponent from './MishuComponent';
 
 import sceneReference from './SceneReference';
 
-
 import planeSelector from './PlaneSelection';
 
 export default class HelloWorldSceneAR extends Component {
 
   constructor() {
     super();
-    // Set initial state here
     this.state = { };
-    // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this.updateScene = this.updateScene.bind(this);
 
+    // let other components and scripts update the entire scene easily 
+    // without having to pass props around
     sceneReference.updateScene = this.updateScene;
   }
 
@@ -35,8 +34,6 @@ export default class HelloWorldSceneAR extends Component {
         onTrackingUpdated={this._onInitialized} >
         
         { planeSelector.renderHitPointGhost() }
-      
-        <ViroAmbientLight color={"#aaaaaa"} />
         
         {/* Draw our mishu component */}
         <MishuComponent />
@@ -53,7 +50,6 @@ export default class HelloWorldSceneAR extends Component {
     } 
     else if (state == ViroConstants.TRACKING_NONE) {
       console.error("Viro Tracking Error!\n", reason);
-      // Handle loss of tracking
     }
   }
 }
