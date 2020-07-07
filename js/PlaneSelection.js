@@ -3,15 +3,22 @@
 */
 
 import React from 'react'
-import { ViroSphere, ViroMaterials } from "react-viro";
+import { ViroQuad, ViroMaterials } from "react-viro";
 import sceneReference from './SceneReference';
+
+const TARGET_VISUAL_SIZE = .1;
 
 const planeSelector = {
     
     // visual marker as to where the ray's "hit point" is
     renderHitPointGhost () {
         if (this.hitPoint)
-            return <ViroSphere position={this.hitPoint} radius={.025} materials={["placeGhostMaterial"]} />
+            return <ViroQuad 
+                position={this.hitPoint} 
+                height={TARGET_VISUAL_SIZE} width={TARGET_VISUAL_SIZE} 
+                rotation={[-90,0,0]} 
+                materials={["placeGhostMaterial"]} 
+            />
     },
 
     onCameraARHitTest (results) {
@@ -33,7 +40,7 @@ planeSelector.onCameraARHitTest = planeSelector.onCameraARHitTest.bind(planeSele
 
 ViroMaterials.createMaterials({
     placeGhostMaterial: {
-        diffuseColor: 'red',
+        diffuseTexture: require("./res/place_target.png"),
     },
 });
 
