@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 import WelcomeScreen from "./screens/WelcomeScreen";
 var InitialARScene = require('./AR/HelloWorldSceneAR');
-import debugButtonsFramework from "./js/DebugButtonsFramework";
+import debugButtonsFramework from "./AR/DebugButtonsFramework";
 
 class Mishu extends Component {
   constructor() {
@@ -39,15 +39,6 @@ class Mishu extends Component {
     );
   }
 }
-var localStyles = StyleSheet.create({
-  outer: {
-    flex: 1,
-  },
-
-  arView: {
-    flex: 1,
-  },
-});
 
 const mapState = state => {
   console.log(state.pet)
@@ -57,3 +48,13 @@ const mapState = state => {
 }
 
 export default connect(mapState)(Mishu)
+
+var localStyles = StyleSheet.create({
+  outer: {
+    flex: 1,
+  },
+
+  arView: {
+    flex: 1,
+  },
+});
