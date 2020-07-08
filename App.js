@@ -11,6 +11,7 @@ import {
 
 var InitialARScene = require('./js/HelloWorldSceneAR.js');
 
+import debugButtonsFramework from './js/DebugButtonsFramework'
 
 export default class ViroSample extends Component {
   constructor() {
@@ -24,6 +25,8 @@ export default class ViroSample extends Component {
         <ViroARSceneNavigator style={localStyles.arView}
             initialScene={{scene:InitialARScene}}
         />
+        {/* render the debug menu if any debug buttons exist */}
+        { debugButtonsFramework.drawDebugButtonMenu( () => this.setState({}) ) }
       </View>
     );
   }
