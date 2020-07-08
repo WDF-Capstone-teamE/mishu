@@ -11,6 +11,8 @@ import React, { Component } from 'react';
 
 import { ViroARSceneNavigator } from 'react-viro';
 
+import debugButtonsFramework from './js/DebugButtonsFramework'
+
 var InitialARScene = require('./js/HelloWorldSceneAR');
 
 export default class ViroSample extends Component {
@@ -20,7 +22,13 @@ export default class ViroSample extends Component {
   }
 
   render() {
-    return <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene}} />
+    return (
+      <React.Fragment>
+        <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene}} />
+        {/* render the debug menu if any debug buttons exist */}
+        { debugButtonsFramework.drawDebugButtonMenu( () => this.setState({}) ) }
+      </React.Fragment>
+    )
   }
 }
 

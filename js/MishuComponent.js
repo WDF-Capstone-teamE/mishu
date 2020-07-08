@@ -5,15 +5,16 @@
 
 import React from 'react'
 
-import { mishuTransform } from './Transform'
+import mishuTransform from './Transform'
 
 import { ViroBox, ViroMaterials } from "react-viro";
 
 function MishuComponent () {
     return (
         <ViroBox
+          scale={[.1,.1,.1]}
           position={mishuTransform.getPosition()}
-          scale={mishuTransform.getScale()}
+          rotation={mishuTransform.getRotation()}
           materials={["mishuMaterial"]}
         />
     );
