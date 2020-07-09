@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { ViroARScene, ViroConstants } from 'react-viro';
+import { ViroARScene, ViroConstants, ViroAmbientLight, ViroDirectionalLight } from 'react-viro';
 
 import MishuComponent from './MishuComponent';
 import planeSelector from './PlaneSelection';
@@ -101,6 +101,8 @@ export default class HelloWorldSceneAR extends Component {
         <React.Fragment>
 
           {/* Draw our mishu component */}
+          <ViroDirectionalLight color="#ffffff" direction={[0,-1,-.2]}/>
+          <ViroAmbientLight color="#ffffff" intensity={200}/>
           <MishuComponent />
 
         </React.Fragment>
