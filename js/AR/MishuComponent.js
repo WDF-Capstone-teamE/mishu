@@ -7,24 +7,30 @@ import React from 'react'
 
 import mishuTransform from './Transform'
 
-import { ViroBox, ViroMaterials } from "react-viro";
+import { Viro3DObject, ViroMaterials } from "react-viro";
 
 function MishuComponent () {
     return (
-        <ViroBox
-          scale={[.1,.1,.1]}
-          position={mishuTransform.getPosition()}
-          rotation={mishuTransform.getRotation()}
-          materials={["mishuMaterial"]}
-        />
+        <Viro3DObject
+        source={require('./res/icecreamman_anim/icecreamman_anim_a.vrx')}
+        materials={["petMaterials"]}
+
+        position={mishuTransform.getPosition()}
+        rotation={mishuTransform.getRotation()}
+        scale={[.1, .1, .1]}
+        type="VRX"
+        animation={{name:"02", run:true, loop:true,}}
+      />
     );
 }
-
+ 
 ViroMaterials.createMaterials({
-    mishuMaterial: {
-        diffuseTexture: require("./res/grid_bg.jpg"),
-    },
-});
-  
+    petMaterials: {
+       lightingModel: "Blinn",
+       diffuseTexture: require('./res/icecreamman_anim/icecreamman_diffuse.png'),
+       normalTexture: require('./res/icecreamman_anim/icecreamman_normal.png'),
+       specularTexture: require('./res/icecreamman_anim/icecreamman_specular.png')
+     },
+  });
 
 module.exports = MishuComponent;

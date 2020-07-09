@@ -9,7 +9,7 @@ import sceneReference from './SceneReference';
 const mishuTransform = {
 
     // initialize so it's in front of the camera
-    position: [0,0,-1],
+    position: [0,-.5,-1],
 
     rotation: [0,0,0],
 
