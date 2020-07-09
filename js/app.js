@@ -14,7 +14,7 @@ import { ViroARSceneNavigator } from 'react-viro';
 
 import WelcomeScreen from "./screens/WelcomeScreen";
 import debugButtonsFramework from "./AR/DebugButtonsFramework";
-import { ActionListComp } from "./AR/res/Components";
+import { ActionListComp } from "./AR/res/Components"
 
 var InitialARScene = require('./AR/HelloWorldSceneAR');
 
