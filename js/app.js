@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 
@@ -28,7 +28,7 @@ class Mishu extends Component {
     const {selectedPet} = this.props
     selectedPet.kind = 'cat'
     return selectedPet.kind ? (
-      <View style={localStyles.outer}>
+      <SafeAreaView style={localStyles.outer}>
         {/* render the debug menu if any debug buttons exist */}
         {debugButtonsFramework.drawDebugButtonMenu(() => this.setState({}))}
 
@@ -40,7 +40,7 @@ class Mishu extends Component {
         <View style={localStyles.actionList}>
           <ActionListComp />
         </View>
-      </View>
+      </SafeAreaView>
     ) : (
       <WelcomeScreen />
     );
