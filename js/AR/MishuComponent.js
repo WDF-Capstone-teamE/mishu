@@ -12,14 +12,17 @@ import { Viro3DObject, ViroMaterials } from "react-viro";
 function MishuComponent () {
     return (
         <Viro3DObject
-        source={require('./res/icecreamman_anim/icecreamman_anim_a.vrx')}
+
+        source={require('./res/PolydactylTestModel/Berry_Leaf.vrx')}
+        // source={require('./res/icecreamman_anim/icecreamman_anim_a.vrx')}
         materials={["petMaterials"]}
 
         position={mishuTransform.getPosition()}
         rotation={mishuTransform.getRotation()}
-        scale={[.1, .1, .1]}
+        // model works, but it is HUGE, must be scaled down considerably, do NOT change this
+        scale={[.000005, .000005, .000005]}
         type="VRX"
-        animation={{name:"02", run:true, loop:true,}}
+        // animation={{name:"idle", run:true, loop:true,}}
       />
     );
 }
@@ -27,9 +30,10 @@ function MishuComponent () {
 ViroMaterials.createMaterials({
     petMaterials: {
        lightingModel: "Blinn",
-       diffuseTexture: require('./res/icecreamman_anim/icecreamman_diffuse.png'),
-       normalTexture: require('./res/icecreamman_anim/icecreamman_normal.png'),
-       specularTexture: require('./res/icecreamman_anim/icecreamman_specular.png')
+       diffuseTexture: require('./res/PolydactylTestModel/Tex_Cherry.jpg')
+    //    diffuseTexture: require('./res/icecreamman_anim/icecreamman_diffuse.png'),
+    //    normalTexture: require('./res/icecreamman_anim/icecreamman_normal.png'),
+    //    specularTexture: require('./res/icecreamman_anim/icecreamman_specular.png')
      },
   });
 
