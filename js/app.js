@@ -13,8 +13,8 @@ import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 
 import WelcomeScreen from "./screens/WelcomeScreen";
-import ActionListComp from "./AR/res/Components"
 import debugButtonsFramework from "./AR/DebugButtonsFramework";
+import { ActionListComp } from "./AR/res/Components"
 
 var InitialARScene = require('./AR/HelloWorldSceneAR');
 
