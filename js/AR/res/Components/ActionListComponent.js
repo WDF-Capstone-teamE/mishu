@@ -9,6 +9,8 @@ import {
   Alert,
 } from 'react-native';
 
+// import {} from '../../../AR/MishuComponent'
+
 const DATA = [
   {
     id: 'goButton',
@@ -18,7 +20,7 @@ const DATA = [
   {
     id: 'catchButton',
     title: 'Catch',
-    callback: () => {}
+    callback: () => { }
   },
   {
     id: 'sitButton',
@@ -94,6 +96,7 @@ export default function actionList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 5
   },
   item: {
     backgroundColor: '#000000aa',

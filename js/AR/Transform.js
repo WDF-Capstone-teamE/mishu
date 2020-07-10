@@ -11,7 +11,7 @@ const mishuTransform = {
     // initialize so it's in front of the camera
     position: [0,-.5,-1],
 
-    rotation: [90,0,0],
+    rotation: [0,0,0],
 
     setPosition: function(x, y, z) {
         this.position = [x,y,z];
