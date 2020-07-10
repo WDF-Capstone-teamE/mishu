@@ -13,32 +13,32 @@ const DATA = [
   {
     id: 'goButton',
     title: 'Go there',
-    callback: () => Alert.alert('test alert')
+    callback: () => Alert.alert('This button will move the pet to your desired location')
   },
   {
     id: 'catchButton',
     title: 'Catch',
-    callback: () => {}
+    callback: () =>  Alert.alert('This button will play a catch animation')
   },
   {
     id: 'sitButton',
     title: 'Sit',
-    callback: () => {}
+    callback: () =>  Alert.alert('This button will play a sit animation')
   },
   {
     id: 'begButton',
     title: 'Beg',
-    callback: () => {}
+    callback: () =>  Alert.alert('This button will play a beg animation')
   },
     {
     id: 'brushButton',
     title: 'Brush',
-    callback: () => {}
+    callback: () =>  Alert.alert('This button will play a brush animation')
   },
     {
     id: 'petButton',
     title: 'Pet',
-    callback: () => {}
+    callback: () =>  Alert.alert('This button will play a pet animation')
   },
 ];
 

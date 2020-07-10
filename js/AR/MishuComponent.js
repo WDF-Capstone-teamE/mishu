@@ -41,7 +41,7 @@ class MishuComponent extends Component {
                 animation={{name:this.state.currentAnimation, run:true, loop:true,}}
               />
             )
-        }
+        } 
 
         else if(model === "turkey"){
             return (
