@@ -72,16 +72,16 @@ function getRandomInt(max) {
  
 ViroMaterials.createMaterials({
     iceCreamMaterials: {
-       lightingModel: "Blinn",
-       diffuseTexture: require('./res/icecreamman_anim/icecreamman_diffuse.png'),
-       normalTexture: require('./res/icecreamman_anim/icecreamman_normal.png'),
-       specularTexture: require('./res/icecreamman_anim/icecreamman_specular.png')
+        // lightingModel: "Blinn",
+        diffuseTexture: require('./res/icecreamman_anim/icecreamman_diffuse.png'),
+        // normalTexture: require('./res/icecreamman_anim/icecreamman_normal.png'),
+        // specularTexture: require('./res/icecreamman_anim/icecreamman_specular.png')
     },
     turkeyMaterials: {
-        lightingModel: "Blinn",
+        // lightingModel: "Blinn",
         diffuseTexture: require('./res/turkeyman_anim/turkeyman_diffuse.jpg'),
-        normalTexture: require('./res/turkeyman_anim/turkeyman_normal.jpg'),
-        specularTexture: require('./res/turkeyman_anim/turkeyman_specular.jpg')
+        // normalTexture: require('./res/turkeyman_anim/turkeyman_normal.jpg'),
+        // specularTexture: require('./res/turkeyman_anim/turkeyman_specular.jpg')
     }
 });
 
