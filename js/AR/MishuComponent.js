@@ -78,9 +78,12 @@ class MishuComponent extends Component {
 }
  
 ViroMaterials.createMaterials({
-    mishuMaterial: {
-        diffuseTexture: require("./res/grid_bg.jpg"),
+    iceCreamMaterials: {
+        diffuseTexture: require("./res/icecreamman_anim/icecreamman_diffuse.png"),
     },
+    turkeyMaterials: {
+        diffuseTexture: require("./res/turkeyman_anim/turkeyman_diffuse.jpg")
+    }
 });
   
 module.exports = MishuComponent;
