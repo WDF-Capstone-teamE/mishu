@@ -6,7 +6,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button
 } from "react-native";
+
+import colors from "../config/colors";
 
 const AboutModal = ({ onPress, modalVisible }) => (
   <View style={styles.centeredView}>
@@ -23,19 +26,11 @@ const AboutModal = ({ onPress, modalVisible }) => (
           <Text style={styles.modalText}>
             A cross-platform augmented-reality virtual pet app.
           </Text>
-          <TouchableOpacity
+          <Button
             onPress={onPress}
-            style={{
-              elevation: 8,
-              backgroundColor: colors.third,
-              paddingVertical: 10,
-              paddingHorizontal: 12,
-              width: "100%",
-              height: 70,
-            }}
-          >
-            <Text style={styles.appButtonText}>Close Modal</Text>
-          </TouchableOpacity>
+            title="Close Modal"
+            color={colors.third}
+          />
         </View>
       </View>
     </Modal>
@@ -48,6 +43,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+  },
+
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
   modalView: {
     margin: 20,
@@ -63,21 +63,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
   },
 });
 
