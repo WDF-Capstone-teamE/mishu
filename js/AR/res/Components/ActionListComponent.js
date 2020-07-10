@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: '#000000aa',
-    padding: 10,
     marginVertical: 4,
     marginHorizontal: 10,
     width: 100,

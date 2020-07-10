@@ -67,7 +67,7 @@ var localStyles = StyleSheet.create({
 
   actionList: {
     flex: 1,
-    height: 40,
+    height: 50,
     width: '100%',
     position: 'absolute',
     justifyContent: 'center',
