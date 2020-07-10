@@ -39,41 +39,8 @@ const WelcomeScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { showArScreen } = props
   return (
-    <SafeAreaView style={styles.backgroundSafeArea} >
-      <ImageBackground
-        style={styles.background}
-        source={require("../Assets/welcomeImage.jpg")}
-      >
-        <AboutModal
-          modalVisible={modalVisible}
-          onPress={() => {
-            setModalVisible(!modalVisible);
-          }}
-        />
-        <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
-          <Image
-            style={styles.logoText}
-            source={require("../Assets/mishu.png")}
-          />
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <AppButton
-            title="Next"
-            backgroundColor={colors.secondary}
-            onPress={() => showArScreen({show:true})}
-          />
-          <AppButton
-            title="About"
-            backgroundColor={colors.third}
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          />
-        </View>
-      </ImageBackground>
-    </SafeAreaView>
-    // <ImageBackground
+    // <SafeAreaView style={styles.backgroundSafeArea} >
+    //   <ImageBackground
     //     style={styles.background}
     //     source={require("../Assets/welcomeImage.jpg")}
     //   >
@@ -94,11 +61,7 @@ const WelcomeScreen = (props) => {
     //       <AppButton
     //         title="Next"
     //         backgroundColor={colors.secondary}
-    //         nPress={() =>
-    //           Alert.alert("Next Page", "Goes to the next page", [
-    //             { text: "Next" },
-    //           ])
-    //         }
+    //         onPress={() => showArScreen({show:true})}
     //       />
     //       <AppButton
     //         title="About"
@@ -109,6 +72,39 @@ const WelcomeScreen = (props) => {
     //       />
     //     </View>
     //   </ImageBackground>
+    // </SafeAreaView>
+    <ImageBackground
+      style={styles.background}
+      source={require("../Assets/welcomeImage.jpg")}
+    >
+      <AboutModal
+        modalVisible={modalVisible}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
+      />
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
+        <Image
+          style={styles.logoText}
+          source={require("../Assets/mishu.png")}
+        />
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <AppButton
+          title="Next"
+          backgroundColor={colors.secondary}
+          onPress={() => showArScreen({ show: true })}
+        />
+        <AppButton
+          title="About"
+          backgroundColor={colors.third}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -134,7 +130,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     width: "100%",
-    height: 70,
+    height: 85,
   },
   appButtonText: {
     fontSize: 16,
@@ -146,7 +142,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: colors.background,
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     justifyContent: "flex-end",
     alignItems: "center",
   },
