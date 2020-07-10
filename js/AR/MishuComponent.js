@@ -34,7 +34,7 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.3, .3, .3]}
+                scale={[.2, .2, .2]}
 
                 type="VRX"
                 onClick={this.onTap}
@@ -53,7 +53,7 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.3, .3, .3]}
+                scale={[.2, .2, .2]}
 
                 type="VRX"
                 onClick={this.onTap}
@@ -76,11 +76,7 @@ class MishuComponent extends Component {
         }
     }
 }
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-
+ 
 ViroMaterials.createMaterials({
     mishuMaterial: {
         diffuseTexture: require("./res/grid_bg.jpg"),
