@@ -26,7 +26,7 @@ class Mishu extends Component {
   
   render() {
     const {selectedPet} = this.props
-    selectedPet.kind = 'cat'
+    // selectedPet.kind = 'cat'
     return selectedPet.kind ? (
       <View style={localStyles.outer}>
         {/* render the debug menu if any debug buttons exist */}

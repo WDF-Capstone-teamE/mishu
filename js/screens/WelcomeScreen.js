@@ -1,54 +1,165 @@
-import React from 'react'
-import {ImageBackground ,StyleSheet, Platform, StatusBar, View, Text, Button, Alert } from 'react-native'
+import React, { useState } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  View,
+  Text,
+  TouchableHighlight,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Modal,
+} from "react-native";
 
-import colors from '../config/colors'
+import colors from "../config/colors";
+import AboutModal from "./About";
+
+const AppButton = ({ onPress, title, backgroundColor }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={{
+      elevation: 8,
+      backgroundColor: backgroundColor,
+      flex: 1,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      width: "100%",
+      height: 70,
+    }}
+  >
+    <Text style={styles.appButtonText}>{title}</Text>
+  </TouchableOpacity>
+);
+// const AboutModal = ({ onPress, modalVisible }) => (
+//   <View style={styles.centeredView}>
+//     <Modal
+//       animationType="slide"
+//       transparent={true}
+//       visible={modalVisible}
+//       onRequestClose={() => {
+//         Alert.alert("Modal has been closed.");
+//       }}
+//     >
+//       <View style={styles.centeredView}>
+//         <View style={styles.modalView}>
+//           <Text style={styles.modalText}>
+//             A cross-platform augmented-reality virtual pet app.
+//           </Text>
+//           <TouchableOpacity
+//             onPress={onPress}
+//             style={{
+//               elevation: 8,
+//               backgroundColor: colors.third,
+//               paddingVertical: 10,
+//               paddingHorizontal: 12,
+//               width: "100%",
+//               height: 70,
+//             }}
+//           >
+//             <Text style={styles.appButtonText}>Close Modal</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//     </Modal>
+//   </View>
+// );
 
 const WelcomeScreen = () => {
-    return (
-      <ImageBackground
-        style={styles.background}
-        source={require("../Assets/welcomeImage.jpg")}
-      >
-        <Button
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <ImageBackground
+      style={styles.background}
+      source={require("../Assets/welcomeImage.jpg")}
+    >
+      <AboutModal
+        modalVisible={modalVisible}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
+      />
+      <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
+      <View style={{ flexDirection: "row" }}>
+        <AppButton
           title="Next"
-          color={colors.primary}
-          onPress={() =>
+          backgroundColor={colors.secondary}
+          nPress={() =>
             Alert.alert("Next Page", "Goes to the next page", [
               { text: "Next" },
             ])
           }
         />
-        <Button
+        <AppButton
           title="About"
-          color={colors.secondary}
-          onPress={() =>
-            Alert.alert(
-              "About Mishu",
-              "A cross-platform augmented-reality virtual pet app.",
-              [{ text: "About Mishu" }, { text: "Developers on Mishu" }]
-            )
-          }
+          backgroundColor={colors.third}
+          onPress={() => {
+            setModalVisible(true);
+          }}
         />
-      </ImageBackground>
-    );
-}
+      </View>
+    </ImageBackground>
+  );
+};
 
-export default WelcomeScreen
+export default WelcomeScreen;
 const styles = StyleSheet.create({
-  aboutButton: {
+  appButtonContainer: {
+    elevation: 8,
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     width: "100%",
     height: 70,
-    backgroundColor: colors.secondary,
+  },
+  appButtonText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    top: 10,
   },
   background: {
     flex: 1,
     backgroundColor: colors.background,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
-  nextButton: {
-    width: "100%",
-    height: 70,
-    backgroundColor: colors.primary,
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    position: "absolute",
+    top: 70,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
