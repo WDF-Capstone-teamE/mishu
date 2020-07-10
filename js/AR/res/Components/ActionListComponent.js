@@ -6,39 +6,46 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  Alert,
 } from 'react-native';
 
 const DATA = [
   {
     id: 'goButton',
     title: 'Go there',
+    callback: () => Alert.alert('test alert')
   },
   {
     id: 'catchButton',
     title: 'Catch',
+    callback: () => {}
   },
   {
     id: 'sitButton',
     title: 'Sit',
+    callback: () => {}
   },
   {
     id: 'begButton',
     title: 'Beg',
+    callback: () => {}
   },
     {
     id: 'brushButton',
     title: 'Brush',
+    callback: () => {}
   },
     {
     id: 'petButton',
     title: 'Pet',
+    callback: () => {}
   },
 ];
 
-function Item({ id, title, selected, onSelect }) {
+function Item({ id, title, callback, selected, onSelect }) {
   return (
     <TouchableOpacity
-      onPress={() => onSelect(id)}
+      onPress={() => {callback(); onSelect(id)}}
       style={[
         styles.item,
         { backgroundColor: selected ? '#6e3b6e' : '#f9c2ff' },
@@ -72,6 +79,7 @@ export default function actionList() {
           <Item
             id={item.id}
             title={item.title}
+            callback={item.callback}
             selected={!!selected.get(item.id)}
             onSelect={onSelect}
           />
@@ -89,7 +97,6 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: '#000000aa',
-    padding: 10,
     marginVertical: 4,
     marginHorizontal: 10,
     width: 100,
