@@ -5,12 +5,14 @@ import React, { Component } from 'react';
 import { ViroARScene, ViroConstants, ViroAmbientLight, ViroDirectionalLight } from 'react-viro';
 
 import MishuComponent from './MishuComponent';
-import planeSelector from './PlaneSelection';
+import { planeSelector, PlaneSelectorComponent } from './PlaneSelection';
 
 import sceneReference from './SceneReference';
 
 import mishuTransform from './Transform'
-import debugButtonsFramework from './DebugButtonsFramework';
+import { debugButtonsFramework, DebugButtonsFrameworkComponent } from './DebugButtonsFramework';
+
+
 import { Alert } from 'react-native';
 
 
@@ -125,7 +127,9 @@ export default class HelloWorldSceneAR extends Component {
           onCameraARHitTest={planeSelector.onCameraARHitTest}
           onTrackingUpdated={this._onInitialized} >
           
-          { planeSelector.renderHitPointGhost() }
+          {/* { planeSelector.renderHitPointGhost() } */}
+          <PlaneSelectorComponent />
+
           
           { renderInnerScene() }
   
@@ -144,9 +148,9 @@ export default class HelloWorldSceneAR extends Component {
       <React.Fragment>
 
         { 
-          planeSelector.enabled ? 
-            renderSceneWithHitDetection() : 
-            renderSceneWithoutHitDetection() 
+          // planeSelector.enabled ? 
+            renderSceneWithHitDetection() //: 
+            // renderSceneWithoutHitDetection() 
         }
 
       </React.Fragment>

@@ -6,7 +6,7 @@
     so try not to add too many at a time
 */
 
-import React from 'react'
+import React, { Component } from "react";
 import { Button } from 'react-native';
 
 const debugButtonsFramework = {
@@ -28,4 +28,34 @@ const debugButtonsFramework = {
     }
 };
 
-module.exports = debugButtonsFramework;
+
+class DebugButtonsFrameworkComponent extends Component {
+  constructor() {
+    super();
+    this.state = {}
+  }
+  render() {
+    return debugButtonsFramework.buttons.map(b => <Button key={b.name} title={b.name} onPress={() => {
+        b.callback();
+        this.setState({});
+    }}/>);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = { debugButtonsFramework, DebugButtonsFrameworkComponent };
