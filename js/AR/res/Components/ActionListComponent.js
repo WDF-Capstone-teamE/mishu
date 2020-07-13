@@ -14,8 +14,8 @@ import {
 
 const DATA = [
   {
-    id: 'goButton',
-    title: 'Go there',
+    id: 'dance',
+    title: 'Dance',
     callback: () => Alert.alert('This button will move the pet to your desired location')
   },
   {

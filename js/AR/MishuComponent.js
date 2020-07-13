@@ -43,7 +43,7 @@ class MishuComponent extends Component {
 
                 type="VRX"
                 onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true,}}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
               />
             )
         } 
