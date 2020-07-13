@@ -17,6 +17,9 @@ class MishuComponent extends Component {
             currentAnimation: "01"
         }
         this.onTap = this.onTap.bind(this);
+
+        // every time transform changes, update this mishu component
+        mishuTransform.onTransformChange = () => this.setState({...this.state});
     }
 
     render() {

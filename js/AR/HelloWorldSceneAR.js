@@ -7,11 +7,8 @@ import { ViroARScene, ViroConstants, ViroAmbientLight, ViroDirectionalLight } fr
 import MishuComponent from './MishuComponent';
 import { planeSelector, PlaneSelectorComponent } from './PlaneSelection';
 
-import sceneReference from './SceneReference';
-
 import mishuTransform from './Transform'
-import { debugButtonsFramework, DebugButtonsFrameworkComponent } from './DebugButtonsFramework';
-
+import { debugButtonsFramework } from './DebugButtonsFramework';
 
 import { Alert } from 'react-native';
 
@@ -66,92 +63,38 @@ planeSelector.registerOnEnableCallback((enabled) => {
 */
 
 
-
-
-
-
-
-
-
-
-
 export default class HelloWorldSceneAR extends Component {
 
   constructor() {
     super();
     this.state = { };
     this._onInitialized = this._onInitialized.bind(this);
-    this.updateScene = this.updateScene.bind(this);
-
-    // let other components and scripts update the entire scene easily 
-    // without having to pass props around
-    sceneReference.updateScene = this.updateScene;
-  }
-
-  updateScene() {
-    this.setState({});
   }
 
   render() {
-
-    /*
-      the rest of the rendering logic that doesn't have anything
-      to do with the plane detection logic
+    /* 
+      turns our disabling and enabling the continuous hit detection via
+      rendering a different version of the ViroARScene component (one with
+      hit detection, one without) also reloads all the assets within a scene :/ 
+      so i guess we have to deal with the performance hit of continuously querying 
+      plane detection via viro over relaodign models everytime 
+      we turn it off and on
     */
-    function renderInnerScene () {
-      return (
-        <React.Fragment>
+    return (
+      <React.Fragment>
+
+        <ViroARScene 
+          onCameraARHitTest={planeSelector.onCameraARHitTest}
+          onTrackingUpdated={this._onInitialized} >
+          
+          <PlaneSelectorComponent />
 
           {/* Draw our mishu component */}
           <ViroDirectionalLight color="#ffffff" direction={[0,-1,-.2]}/>
           <ViroAmbientLight color="#ffffff" intensity={200}/>
           <MishuComponent />
-
-        </React.Fragment>
-      );
-    }
-
-    /*
-      since the only way to get continuous hit detection for placement 
-      is through a callback on the ViroARScene, we need to have two versions 
-      of rendering the scene,
-
-      one where we're checking every "frame" for plane detection
-      
-      and one when we're not, so we dont check for hit detection 
-      when we dont need it
-    */
-    const renderSceneWithHitDetection = () => {
-      return (
-        <ViroARScene 
-          onCameraARHitTest={planeSelector.onCameraARHitTest}
-          onTrackingUpdated={this._onInitialized} >
-          
-          {/* { planeSelector.renderHitPointGhost() } */}
-          <PlaneSelectorComponent />
-
-          
-          { renderInnerScene() }
   
         </ViroARScene>
-      );
-    }
-    const renderSceneWithoutHitDetection = () => {
-      return (
-        <ViroARScene onTrackingUpdated={this._onInitialized} >
-          { renderInnerScene() }
-        </ViroARScene>
-      );  
-    }
-
-    return (
-      <React.Fragment>
-
-        { 
-          // planeSelector.enabled ? 
-            renderSceneWithHitDetection() //: 
-            // renderSceneWithoutHitDetection() 
-        }
 
       </React.Fragment>
     )
@@ -160,7 +103,6 @@ export default class HelloWorldSceneAR extends Component {
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
       console.log("Viro Tracking Initialized!");
-      this.updateScene();
     } 
     else if (state == ViroConstants.TRACKING_NONE) {
       console.error("Viro Tracking Error!\n", reason);

@@ -3,26 +3,25 @@
     and decoupled from render logic
 */
 
-
-import sceneReference from './SceneReference';
-
 const mishuTransform = {
 
     // initialize so it's in front of the camera
     position: [0,-.5,-1],
     rotation: [0,0,0],
 
+    onTransformChange: null,
+
     setPosition: function(x, y, z) {
         this.position = [x,y,z];
 
-        // update the scene so react re-renders
-        sceneReference.updateScene();
+        if (this.onTransformChange)
+            this.onTransformChange();
     },
     setRotation: function(x, y, z) {
         this.rotation = [x,y,z];
 
-        // update the scene so react re-renders
-        sceneReference.updateScene();
+        if (this.onTransformChange)
+            this.onTransformChange();
     },
     getPosition: function() {
         return [...this.position];

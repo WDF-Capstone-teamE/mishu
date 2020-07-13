@@ -3,7 +3,7 @@
 
     can be enabled and disabled, since the hit detection
     feature happens every "frame", so we want to disable
-    it when not in use
+    some logic when not in use
 */
 
 import React, { Component } from "react";
@@ -30,6 +30,8 @@ const planeSelector = {
     // array of callbacks to invoke when enabling or disabling
     // plane selection mode
     onEnabledCallbacks: [],
+
+    redrawPlaneTargetImage: null,
     
     registerOnEnableCallback(callback) {
         // initialize the callback to current enabled state
@@ -44,16 +46,13 @@ const planeSelector = {
 
         // this is to make sure the plane selector
         // react component stops rendering when disabled
-        if (this.updatePlaneSelectorRender)
-            this.updatePlaneSelectorRender();
-        
-            // notify the registered callbacks
-        this.onEnabledCallbacks.forEach(cb => cb(enabled));
+        if (!enabled && this.redrawPlaneTargetImage)
+            this.redrawPlaneTargetImage();
 
+        // notify the registered callbacks
+        this.onEnabledCallbacks.forEach(cb => cb(enabled));
     },
 
-    updatePlaneSelectorImage: null,
-    
     // clalback given to the Viro AR scene to continuously cehck for
     // flat surfaces
     onCameraARHitTest (results) {
@@ -73,21 +72,26 @@ const planeSelector = {
 
         // continuously update the react component so it displays the
         // correct hit point
-        if (this.updatePlaneSelectorRender)
-            this.updatePlaneSelectorRender();
+        if (this.redrawPlaneTargetImage)
+            this.redrawPlaneTargetImage();
     },
 }
 
+// bind so we can supply the callback to viro AR scene,
+// but still use 'this' as the actual planeSelector object
 planeSelector.onCameraARHitTest = planeSelector.onCameraARHitTest.bind(planeSelector);
 
 
 class PlaneSelectorComponent extends Component {
     constructor() {
-      super();
-      this.state = {}
-      planeSelector.updatePlaneSelectorImage = () => this.setState({});
+        super();
+        this.state = {}
+
+        const redrawPlaneTargetImage = () => this.setState({});
+
+        planeSelector.redrawPlaneTargetImage = redrawPlaneTargetImage;
     }
-    
+
     render() {
         if (planeSelector.enabled && planeSelector.hitPoint)
         {
@@ -102,6 +106,8 @@ class PlaneSelectorComponent extends Component {
     }
 }
 
+// create the material for the "target"
+// that displays at the hit point in the world
 ViroMaterials.createMaterials({
     placeGhostMaterial: {
         diffuseTexture: require("./res/place_target.png"),
