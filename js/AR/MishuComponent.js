@@ -6,6 +6,8 @@
 import React, { Component } from 'react'
 import mishuTransform from './Transform'
 import { Viro3DObject, ViroMaterials } from "react-viro";
+import {connect} from 'react-redux'
+import {selectAnimation} from "../store/petAnimation"
 
 class MishuComponent extends Component {
 
@@ -23,9 +25,9 @@ class MishuComponent extends Component {
     }
 
     render() {
-
+        const {modelNum, currentAnimation} = this.props
         let model = "iceCream";
-        if(this.state.modelNum) model = "turkey";
+        if(modelNum) model = "turkey";
 
         if(model === "iceCream"){
             return (
@@ -41,7 +43,7 @@ class MishuComponent extends Component {
 
                 type="VRX"
                 onClick={this.onTap}
-                animation={{name:this.state.currentAnimation, run:true, loop:true,}}
+                animation={{name:currentAnimation, run:true, loop:true,}}
               />
             )
         } 
@@ -60,7 +62,7 @@ class MishuComponent extends Component {
 
                 type="VRX"
                 onClick={this.onTap}
-                animation={{name:this.state.currentAnimation, run:true, loop:true,}}
+                animation={{name:currentAnimation, run:true, loop:true,}}
               />
             )
         }
@@ -88,5 +90,18 @@ ViroMaterials.createMaterials({
         diffuseTexture: require("./res/turkeyman_anim/turkeyman_diffuse.jpg")
     }
 });
+const mapState = (state) => {
+  return {
+    modelNum: state.petAnimation.modelNum,
+    currentAnimation: state.petAnimation.currentAnimation
+  };
+};
+const mapDispatch = (dispatch) => {
+  return {
+    storeAnimation: () => dispatch(selectAnimation()),
+  };
+};
+
+export default connect(mapState, mapDispatch)(MishuComponent);
   
-module.exports = MishuComponent;
+// module.exports = MishuComponent;

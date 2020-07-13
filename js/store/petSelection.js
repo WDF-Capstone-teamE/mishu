@@ -5,6 +5,7 @@
 const PET_KIND = "PET_KIND";
 const GET_PETS = "GET_PETS";
 const SELECT_PET = "SELECT_PET";
+const SHOW_AR ="SHOW_AR"
 /**
  * ACTION CREATORS
  */
@@ -21,6 +22,9 @@ export const selectPet = (pet) => ({
   type: SELECT_PET,
   pet,
 });
+export const showAr = () => ({
+  type: SHOW_AR,
+})
 
 /**
  * THUNK CREATORS
@@ -33,6 +37,7 @@ const initialState = {
   petKind: null,
   petsAvailable: [],
   selectedPet: {},
+  show:false
 };
 /**
  * REDUCER
@@ -44,7 +49,11 @@ export default function (state = initialState, action) {
     case GET_PETS: 
       return {...state, petsAvailable: action.petsAvailable}
     case SELECT_PET: 
-      return {...state, selectedPet: action.pet }     
+      return {...state, selectedPet: action.pet }
+    case SHOW_AR:{
+      // const show = !state.showAr;
+      return { ...state, show: !state.show };
+    }
     default:
       return state;
   }

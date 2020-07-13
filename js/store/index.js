@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from "redux";
 import pet from './petSelection'
-import animation from './petAnimation'
+import petAnimation from './petAnimation'
 
-const reducer = combineReducers({pet, animation});
+const reducer = combineReducers({pet, petAnimation});
 
 const store = createStore(reducer);
 

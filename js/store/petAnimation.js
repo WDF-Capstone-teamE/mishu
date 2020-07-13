@@ -11,9 +11,9 @@ const SELECT_ANIMATION = "SELECT_PET";
 export const getAnimation = () => ({
   type: GET_ANIMATION,
 });
-export const selectAnimation = (numString) => ({
+export const selectAnimation = () => ({
   type: SELECT_ANIMATION,
-  numString,
+  // numString,
 });
 
 
@@ -21,7 +21,8 @@ export const selectAnimation = (numString) => ({
  * INITIAL STATE
  */
 const initialState = {
-  animation: "01"
+  modelNum: 0,
+  currentAnimation: "01",
 };
 
 
@@ -34,8 +35,14 @@ export default function (state = initialState, action) {
       return { ...state }
     // this is the logic for setting an animation, in order to connect the buttons to an animation
     // simply send in the string that corresponds to that animation on the model
-    case SELECT_ANIMATION: 
-      return { animation: action.numString }     
+    case SELECT_ANIMATION: {
+      if (state.currentAnimation === "01") {
+        state.currentAnimation = "02";
+      } else if (state.currentAnimation === "02") {
+        state.currentAnimation = "01";
+      }
+      return { ...state }; 
+    }    
     default:
       return state;
   }
