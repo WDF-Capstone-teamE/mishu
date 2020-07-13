@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 
 import WelcomeScreen from "./screens/WelcomeScreen";
-import debugButtonsFramework from "./AR/DebugButtonsFramework";
+import { DebugButtonsFrameworkComponent } from "./AR/DebugButtonsFramework";
 import { ActionListComp } from "./AR/res/Components"
 
 var InitialARScene = require('./AR/HelloWorldSceneAR');
@@ -28,9 +28,10 @@ class Mishu extends Component {
     const {selectedPet} = this.props
     return selectedPet.show ? (
       <SafeAreaView style={localStyles.outer}>
-        {/* render the debug menu if any debug buttons exist */}
-        {debugButtonsFramework.drawDebugButtonMenu(() => this.setState({}))}
 
+        {/* render the debug menu if any debug buttons exist */}
+        <DebugButtonsFrameworkComponent />
+        
         <ViroARSceneNavigator
           style={localStyles.arView}
           initialScene={{ scene: InitialARScene }}

@@ -3,13 +3,11 @@
 
     can be enabled and disabled, since the hit detection
     feature happens every "frame", so we want to disable
-    it when not in use
+    some logic when not in use
 */
 
-import React from 'react'
+import React, { Component } from "react";
 import { ViroQuad, ViroMaterials } from "react-viro";
-
-import sceneReference from './SceneReference';
 
 // the size of the visual that renders
 // where we are detecting a plane
@@ -32,6 +30,8 @@ const planeSelector = {
     // array of callbacks to invoke when enabling or disabling
     // plane selection mode
     onEnabledCallbacks: [],
+
+    redrawPlaneTargetImage: null,
     
     registerOnEnableCallback(callback) {
         // initialize the callback to current enabled state
@@ -44,13 +44,21 @@ const planeSelector = {
     enable(enabled) {
         this.enabled = enabled;
 
+        // this is to make sure the plane selector
+        // react component stops rendering when disabled
+        if (!enabled && this.redrawPlaneTargetImage)
+            this.redrawPlaneTargetImage();
+
         // notify the registered callbacks
         this.onEnabledCallbacks.forEach(cb => cb(enabled));
     },
-    
+
     // clalback given to the Viro AR scene to continuously cehck for
     // flat surfaces
     onCameraARHitTest (results) {
+
+        if (!this.enabled)
+            return;
         
         this.hitPoint = null;
         
@@ -59,33 +67,51 @@ const planeSelector = {
             if (result.type == "ExistingPlaneUsingExtent") {
                 this.hitPoint = result.transform.position;
                 break;
-            }     
+            }
         }
-        
-        // continuously update the scene so it redraws the react 
-        // components and shows the correct hitpoint
-        sceneReference.updateScene();
-    },
 
-    // render the visual marker as to where the ray's "hit point" is
-    // currently just a Quad with a "target" texture
-    renderHitPointGhost () {
-        if (this.hitPoint)
-            return <ViroQuad 
-                position={this.hitPoint} 
-                height={TARGET_VISUAL_SIZE} width={TARGET_VISUAL_SIZE} 
-                rotation={[-90,0,0]} 
-                materials={["placeGhostMaterial"]} 
-            />
+        // continuously update the react component so it displays the
+        // correct hit point
+        if (this.redrawPlaneTargetImage)
+            this.redrawPlaneTargetImage();
     },
 }
 
+// bind so we can supply the callback to viro AR scene,
+// but still use 'this' as the actual planeSelector object
 planeSelector.onCameraARHitTest = planeSelector.onCameraARHitTest.bind(planeSelector);
 
+
+class PlaneSelectorComponent extends Component {
+    constructor() {
+        super();
+        this.state = {}
+
+        const redrawPlaneTargetImage = () => this.setState({});
+
+        planeSelector.redrawPlaneTargetImage = redrawPlaneTargetImage;
+    }
+
+    render() {
+        if (planeSelector.enabled && planeSelector.hitPoint)
+        {
+            return <ViroQuad 
+                position={planeSelector.hitPoint} 
+                height={TARGET_VISUAL_SIZE} width={TARGET_VISUAL_SIZE} 
+                rotation={[-90, 0, 0]} 
+                materials={["placeTargeMaterial"]} 
+            />
+        }
+        return null;
+    }
+}
+
+// create the material for the "target"
+// that displays at the hit point in the world
 ViroMaterials.createMaterials({
-    placeGhostMaterial: {
+    placeTargeMaterial: {
         diffuseTexture: require("./res/place_target.png"),
     },
 });
 
-module.exports = planeSelector;
+module.exports = { planeSelector, PlaneSelectorComponent };
