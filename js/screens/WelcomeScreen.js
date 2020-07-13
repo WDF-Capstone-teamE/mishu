@@ -15,7 +15,7 @@ import {
 
 import colors from "../config/colors";
 import AboutModal from "./About";
-import {selectPet} from '../store/petSelection'
+import {showAr} from '../store/petSelection'
 
 const AppButton = ({ onPress, title, backgroundColor }) => (
   <TouchableOpacity
@@ -94,7 +94,7 @@ const WelcomeScreen = (props) => {
         <AppButton
           title="Next"
           backgroundColor={colors.secondary}
-          onPress={() => showArScreen({ show: true })}
+          onPress={() => showArScreen()}
         />
         <AppButton
           title="About"
@@ -116,7 +116,7 @@ const mapState = (state) => {
 };
 const mapDispatch = dispatch => {
  return {
-   showArScreen: (pet) => dispatch(selectPet(pet)),
+   showArScreen: () => dispatch(showAr()),
  };
 }
 

@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from "react-redux";
+
+import { selectAnimation } from "../../../store/petAnimation";
 
 import {
   SafeAreaView,
@@ -56,9 +59,12 @@ function Item({ id, title, callback, selected, onSelect }) {
   );
 }
 
-export default function actionList() {
+function actionList(props) {
   // https://reactjs.org/docs/hooks-state.html
   const [selected, setSelected] = React.useState(new Map());
+  console.log(props.state)
+  const {storeAnimation} = props
+  DATA[0].callback = () => storeAnimation();
 
   const onSelect = React.useCallback(
     id => {
@@ -107,3 +113,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+const mapDispatch = (dispatch) => {
+  return {
+    storeAnimation: () => dispatch(selectAnimation()),
+  };
+};
+
+export default connect(null, mapDispatch)(actionList);

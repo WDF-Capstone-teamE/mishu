@@ -25,8 +25,8 @@ class Mishu extends Component {
   }
   
   render() {
-    const {selectedPet} = this.props
-    return selectedPet.show ? (
+    const {show} = this.props
+    return show ? (
       <SafeAreaView style={localStyles.outer}>
         {/* render the debug menu if any debug buttons exist */}
         {debugButtonsFramework.drawDebugButtonMenu(() => this.setState({}))}
@@ -49,7 +49,7 @@ class Mishu extends Component {
 const mapState = state => {
   console.log(state.pet)
   return {
-    selectedPet: state.pet.selectedPet
+    show: state.pet.show
   }
 }
 
