@@ -98,8 +98,8 @@ class PlaneSelectorComponent extends Component {
             return <ViroQuad 
                 position={planeSelector.hitPoint} 
                 height={TARGET_VISUAL_SIZE} width={TARGET_VISUAL_SIZE} 
-                rotation={[-90,0,0]} 
-                materials={["placeGhostMaterial"]} 
+                rotation={[-90, 0, 0]} 
+                materials={["placeTargeMaterial"]} 
             />
         }
         return null;
@@ -109,7 +109,7 @@ class PlaneSelectorComponent extends Component {
 // create the material for the "target"
 // that displays at the hit point in the world
 ViroMaterials.createMaterials({
-    placeGhostMaterial: {
+    placeTargeMaterial: {
         diffuseTexture: require("./res/place_target.png"),
     },
 });
