@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 
 import WelcomeScreen from "./screens/WelcomeScreen";
+import ChoosePetScreen from "./screens/ChoosePetScreen"
 import { DebugButtonsFrameworkComponent } from "./AR/DebugButtonsFramework";
 import { ActionListComp } from "./AR/res/Components"
 
@@ -25,32 +26,37 @@ class Mishu extends Component {
   }
   
   render() {
-    const {show} = this.props
-    return show ? (
-      <SafeAreaView style={localStyles.outer}>
-
-        {/* render the debug menu if any debug buttons exist */}
-        <DebugButtonsFrameworkComponent />
-        
-        <ViroARSceneNavigator
-          style={localStyles.arView}
-          initialScene={{ scene: InitialARScene }}
-        />
-
-        <SafeAreaView style={localStyles.actionList}>
-          <ActionListComp />
-        </SafeAreaView>
-      </SafeAreaView>
-    ) : (
-      <WelcomeScreen />
-    );
+    const {show, chosen} = this.props
+    if (show){
+      if (chosen){
+        return (
+          <SafeAreaView style={localStyles.outer}>
+    
+            {/* render the debug menu if any debug buttons exist */}
+            <DebugButtonsFrameworkComponent />
+            
+            <ViroARSceneNavigator
+              style={localStyles.arView}
+              initialScene={{ scene: InitialARScene }}
+            />
+    
+            <SafeAreaView style={localStyles.actionList}>
+              <ActionListComp />
+            </SafeAreaView>
+          </SafeAreaView>
+        )
+      }  
+      else return <ChoosePetScreen />
+    }
+    else return <WelcomeScreen />
   }
 }
 
 const mapState = state => {
   console.log(state.pet)
   return {
-    show: state.pet.show
+    show: state.pet.show,
+    chosen: state.pet.chosen
   }
 }
 

@@ -2,21 +2,18 @@
  * ACTION TYPES
  */
 
-const PET_KIND = "PET_KIND";
-const GET_PETS = "GET_PETS";
+import { Alert } from "react-native";
+
+const GET_PET = "GET_PET";
 const SELECT_PET = "SELECT_PET";
 const SHOW_AR ="SHOW_AR"
+const CHOSE_PET = "CHOSE_PET"
 /**
  * ACTION CREATORS
  */
-export const getKind = (petkind) => ({
-  type: PET_KIND,
-  petkind,
-});
-
-export const getPets = (petsAvailable) => ({
+export const getPet = (petChosen) => ({
   type: GET_PETS,
-  petsAvailable,
+  petChosen,
 });
 export const selectPet = (pet) => ({
   type: SELECT_PET,
@@ -24,6 +21,9 @@ export const selectPet = (pet) => ({
 });
 export const showAr = () => ({
   type: SHOW_AR,
+})
+export const chosePet = () => ({
+  type: CHOSE_PET,
 })
 
 /**
@@ -34,25 +34,30 @@ export const showAr = () => ({
  * INITIAL STATE
  */
 const initialState = {
-  petKind: null,
+  petChosen: null,
   petsAvailable: [],
   selectedPet: {},
-  show:false
+  show:false,
+  chosen: false
 };
 /**
  * REDUCER
  */
 export default function (state = initialState, action) {
   switch (action.type) {
-    case PET_KIND: 
-      return {...state, petKind: action.petKind}
-    case GET_PETS: 
-      return {...state, petsAvailable: action.petsAvailable}
-    case SELECT_PET: 
+    case GET_PET: 
+      return {...state, petChosen: action.petChosen}
+    case SELECT_PET: {
+      Alert.alert('Message received! Your chosen pet is on it\'s way to be saved to your local storage ... eventually');
       return {...state, selectedPet: action.pet }
+    }
     case SHOW_AR:{
       // const show = !state.showAr;
       return { ...state, show: !state.show };
+    }
+    case CHOSE_PET:{
+      // const show = !state.showAr;
+      return { ...state, chosen: true };
     }
     default:
       return state;
