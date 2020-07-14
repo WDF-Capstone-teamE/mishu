@@ -104,4 +104,3 @@ const mapDispatch = (dispatch) => {
 
 export default connect(mapState, mapDispatch)(MishuComponent);
   
-// module.exports = MishuComponent;
