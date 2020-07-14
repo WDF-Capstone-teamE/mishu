@@ -62,8 +62,7 @@ class Mishu extends Component {
     }
     else return <WelcomeScreen />
   }
-  // for splash screen
-  // for now simply create an artificial load time of 2 seconds 
+  // for splash screen, create artificial load time of 2 seconds 
   loadContent = async() => {
     return new Promise((resolve) =>
       setTimeout(() => { resolve('result') }, 2000)

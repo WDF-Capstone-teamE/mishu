@@ -2,8 +2,6 @@
  * ACTION TYPES
  */
 
-import { Alert } from "react-native";
-
 const GET_PET = "GET_PET";
 const SELECT_PET = "SELECT_PET";
 const SHOW_AR ="SHOW_AR"
@@ -48,7 +46,6 @@ export default function (state = initialState, action) {
     case GET_PET: 
       return {...state, petChosen: action.petChosen}
     case SELECT_PET: {
-      Alert.alert('Message received! Your chosen pet is on it\'s way to be saved to your local storage ... eventually');
       return {...state, selectedPet: action.pet }
     }
     case SHOW_AR:{
@@ -56,7 +53,6 @@ export default function (state = initialState, action) {
       return { ...state, show: !state.show };
     }
     case CHOSE_PET:{
-      // const show = !state.showAr;
       return { ...state, chosen: true };
     }
     default:
