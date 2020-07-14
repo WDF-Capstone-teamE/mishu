@@ -8,10 +8,11 @@
  */
 
 import React, { Component } from "react";
-import { View, StyleSheet, SafeAreaView} from "react-native";
+import { StyleSheet, SafeAreaView} from "react-native";
 import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
 
+import SplashScreen from "./screens/SplashScreen.js"
 import WelcomeScreen from "./screens/WelcomeScreen";
 import ChoosePetScreen from "./screens/ChoosePetScreen"
 import { DebugButtonsFrameworkComponent } from "./AR/DebugButtonsFramework";
@@ -22,11 +23,22 @@ var InitialARScene = require('./AR/HelloWorldSceneAR');
 class Mishu extends Component {
   constructor() {
     super();
-    this.state = {}
+    this.state = { isLoading: true }
+  }
+
+  async componentDidMount() {
+    const data = await this.loadContent();
+  
+    if (data !== null) {
+      this.setState({ isLoading: false });
+    }
   }
   
   render() {
     const {show, chosen} = this.props
+
+    if (this.state.isLoading) return (<SplashScreen />);
+
     if (show){
       if (chosen){
         return (
@@ -49,6 +61,13 @@ class Mishu extends Component {
       else return <ChoosePetScreen />
     }
     else return <WelcomeScreen />
+  }
+  // for splash screen
+  // for now simply create an artificial load time of 2 seconds 
+  loadContent = async() => {
+    return new Promise((resolve) =>
+      setTimeout(() => { resolve('result') }, 2000)
+    );
   }
 }
 

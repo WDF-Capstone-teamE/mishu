@@ -90,7 +90,6 @@ const ChoosePetScreen = (props) => {
 };
 
 const mapState = (state) => {
-  // console.log(state.pet);
   return {
     selectedPet: state.pet.selectedPet,
     chosen: state.pet.chosen
