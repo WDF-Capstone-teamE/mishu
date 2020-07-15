@@ -63,8 +63,8 @@ function actionList(props) {
   // https://reactjs.org/docs/hooks-state.html
   const [selected, setSelected] = React.useState(new Map());
   console.log(props.state)
-  const {storeAnimation} = props
-  DATA[0].callback = () => storeAnimation();
+  const {selectAnimation} = props
+  DATA[0].callback = () => selectAnimation();
 
   const onSelect = React.useCallback(
     id => {
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 
 const mapDispatch = (dispatch) => {
   return {
-    storeAnimation: () => dispatch(selectAnimation()),
+    selectAnimation: () => dispatch(selectAnimation()),
   };
 };
 
