@@ -21,7 +21,8 @@ const DATA = [
   {
     id: 'danceButton',
     title: 'Dance',
-    callback: () =>  Alert.alert('This button will play a dance animation')
+    callback: () =>  Alert.alert('This button will play a dance animation'),
+    animId: '02',
   },
   {
     id: 'smooshButton',
@@ -62,9 +63,9 @@ function Item({ id, title, callback, selected, onSelect }) {
 function actionList(props) {
   // https://reactjs.org/docs/hooks-state.html
   const [selected, setSelected] = React.useState(new Map());
-  console.log(props.state)
   const {selectAnimation} = props
-  DATA[1].callback = () => selectAnimation();
+  
+  DATA[1].callback = () => selectAnimation(DATA[1].animId);
 
   const onSelect = React.useCallback(
     id => {
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
 
 const mapDispatch = (dispatch) => {
   return {
-    selectAnimation: () => dispatch(selectAnimation()),
+    selectAnimation: (animId) => dispatch(selectAnimation(animId)),
   };
 };
 
