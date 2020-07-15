@@ -14,28 +14,28 @@ import {
 
 const DATA = [
   {
-    id: 'dance',
-    title: 'Dance',
+    id: 'movePetButton',
+    title: 'Move Pet',
     callback: () => Alert.alert('This button will move the pet to your desired location')
   },
   {
-    id: 'catchButton',
-    title: 'Catch',
-    callback: () =>  Alert.alert('This button will play a catch animation')
+    id: 'danceButton',
+    title: 'Dance',
+    callback: () =>  Alert.alert('This button will play a dance animation')
   },
   {
-    id: 'sitButton',
-    title: 'Sit',
-    callback: () =>  Alert.alert('This button will play a sit animation')
+    id: 'smooshButton',
+    title: 'Smoosh',
+    callback: () =>  Alert.alert('This button will play a smoosh animation')
   },
   {
-    id: 'begButton',
-    title: 'Beg',
+    id: 'flipButton',
+    title: 'Flip',
     callback: () =>  Alert.alert('This button will play a beg animation')
   },
     {
-    id: 'brushButton',
-    title: 'Brush',
+    id: 'batheButton',
+    title: 'Bathe',
     callback: () =>  Alert.alert('This button will play a brush animation')
   },
     {
@@ -64,7 +64,7 @@ function actionList(props) {
   const [selected, setSelected] = React.useState(new Map());
   console.log(props.state)
   const {selectAnimation} = props
-  DATA[0].callback = () => selectAnimation();
+  DATA[1].callback = () => selectAnimation();
 
   const onSelect = React.useCallback(
     id => {
