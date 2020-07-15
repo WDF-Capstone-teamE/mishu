@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 
 import colors from "../config/colors";
