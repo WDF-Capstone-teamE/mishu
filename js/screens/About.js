@@ -18,17 +18,19 @@ const AboutModal = ({ onPress, modalVisible }) => (
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
+        // Alert.alert("Modal has been closed.");
       }}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>
-            A cross-platform augmented-reality virtual pet app.
+            An augmented-reality virtual pet app.
           </Text>
+
+          <Text style={styles.modalText}> Add Credits Here!</Text>
           <Button
             onPress={onPress}
-            title="Close Modal"
+            title="Close"
             color={colors.third}
           />
         </View>

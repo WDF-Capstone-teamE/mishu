@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
-  SafeAreaView,
   ImageBackground,
   StyleSheet,
   Platform,
@@ -10,27 +9,27 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 
 import colors from "../config/colors";
 import AboutModal from "./About";
 import {showAr} from '../store/petSelection'
 
-const AppButton = ({ onPress, title, backgroundColor }) => (
+const AppButton = ({ onPress, text, backgroundColor }) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
       elevation: 8,
       backgroundColor: backgroundColor,
-      flex: 1,
-      paddingVertical: 10,
-      paddingHorizontal: 12,
-      width: "100%",
-      height: 70,
+      borderRadius: 40,
+      width: "50%",
+      height: 60,
+      alignItems: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
     }}
   >
-    <Text style={styles.appButtonText}>{title}</Text>
+    <Text style={styles.appButtonText}>{text}</Text>
   </TouchableOpacity>
 );
 
@@ -39,65 +38,36 @@ const WelcomeScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { showArScreen } = props
   return (
-    // <SafeAreaView style={styles.backgroundSafeArea} >
-    //   <ImageBackground
-    //     style={styles.background}
-    //     source={require("../Assets/welcomeImage.jpg")}
-    //   >
-    //     <AboutModal
-    //       modalVisible={modalVisible}
-    //       onPress={() => {
-    //         setModalVisible(!modalVisible);
-    //       }}
-    //     />
-    //     <View style={styles.logoContainer}>
-    //       <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
-    //       <Image
-    //         style={styles.logoText}
-    //         source={require("../Assets/mishu.png")}
-    //       />
-    //     </View>
-    //     <View style={{ flexDirection: "row" }}>
-    //       <AppButton
-    //         title="Next"
-    //         backgroundColor={colors.secondary}
-    //         onPress={() => showArScreen({show:true})}
-    //       />
-    //       <AppButton
-    //         title="About"
-    //         backgroundColor={colors.third}
-    //         onPress={() => {
-    //           setModalVisible(true);
-    //         }}
-    //       />
-    //     </View>
-    //   </ImageBackground>
-    // </SafeAreaView>
     <ImageBackground
       style={styles.background}
       source={require("../Assets/welcomeImage.jpg")}
     >
       <AboutModal
         modalVisible={modalVisible}
+        transparent={true}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}
       />
+
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
+
         <Image
           style={styles.logoText}
           source={require("../Assets/mishu.png")}
         />
+
       </View>
-      <View style={{ flexDirection: "row" }}>
+
+      <View style={styles.appButtonContainer}>
         <AppButton
-          title="Next"
+          text="Start"
           backgroundColor={colors.secondary}
           onPress={() => showArScreen()}
         />
         <AppButton
-          title="About"
+          text="About"
           backgroundColor={colors.third}
           onPress={() => {
             setModalVisible(true);
@@ -109,7 +79,6 @@ const WelcomeScreen = (props) => {
 };
 
 const mapState = (state) => {
-  // console.log(state.pet);
   return {
     selectedPet: state.pet.selectedPet,
   };
@@ -121,23 +90,22 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState,mapDispatch)(WelcomeScreen);
-// export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   appButtonContainer: {
-    elevation: 8,
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    flex:1, 
+    flexDirection: "column",
     width: "100%",
-    height: 85,
+    alignItems: "center",
+    justifyContent: 'space-evenly',
   },
   appButtonText: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#fff",
     fontWeight: "bold",
-    alignSelf: "center",
-    top: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
   },
   background: {
     flex: 1,
@@ -150,7 +118,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    // justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
@@ -163,6 +130,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoText: {
+    top: 15,
     width: 100,
     height: 100,
   },
