@@ -3,5 +3,5 @@ export default {
   secondary: "#A8DADC",
   third: "#457B9D",
   background: "#F1FAEE",
-  last: "#E63946",
+  last: "#f19f6a",
 };
