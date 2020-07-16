@@ -112,7 +112,10 @@ const Swipper = () => {
         </View>
 
         <View style={localStyles.arView}>
-          <DebugButtonsFrameworkComponent/>
+          <SafeAreaView>
+            <DebugButtonsFrameworkComponent />
+          </SafeAreaView>
+
           <ViroARSceneNavigator
             style={localStyles.arView}
             initialScene={{ scene: InitialARScene }}
