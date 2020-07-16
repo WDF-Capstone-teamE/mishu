@@ -18,6 +18,8 @@ import SplashScreen from "./screens/SplashScreen.js"
 import WelcomeScreen from "./screens/WelcomeScreen";
 import ChoosePetScreen from "./screens/ChoosePetScreen"
 import { DebugButtonsFrameworkComponent } from "./AR/DebugButtonsFramework";
+import Profile from "./screens/Profile";
+import Games from "./screens/Games";
 import { ActionListComp } from "./AR/res/Components"
 import colors from "./config/colors";
 
@@ -45,20 +47,6 @@ class Mishu extends Component {
     if (show){
       if (chosen){
         return (
-          // <SafeAreaView style={localStyles.outer}>
-    
-          //   {/* render the debug menu if any debug buttons exist */}
-          //   <DebugButtonsFrameworkComponent />
-            
-          //   <ViroARSceneNavigator
-          //     style={localStyles.arView}
-          //     initialScene={{ scene: InitialARScene }}
-          //   />
-    
-          //   <SafeAreaView style={localStyles.actionList}>
-          //     <ActionListComp />
-          //   </SafeAreaView>
-          // </SafeAreaView>
           <Swipper />
         )
       }  
@@ -95,19 +83,14 @@ const Swipper = () => {
         index={1}
         showsButtons={false}
       >
-        <View
-          style={{
-            ...localStyles.slideDefault,
-            backgroundColor: colors.secondary,
-          }}
-        >
-          <Text style={localStyles.text}>Pet Profile</Text>
+        <View style={localStyles.arView}>
+          <Profile />
           <TouchableOpacity
             style={{ ...localStyles.buttonWrapper, bottom: 18, right: 5 }}
             onPress={next}
           >
             <Text style={{ fontSize: 55, color: colors.last }}>{">"}</Text>
-            <Text style={localStyles.navButton}>GAMES</Text>
+            <Text style={localStyles.navButton}>AR VIEW</Text>
           </TouchableOpacity>
         </View>
 
@@ -147,8 +130,15 @@ const Swipper = () => {
           )}
         </View>
 
-        <View style={localStyles.slideDefault}>
-          <Text style={localStyles.text}>Games</Text>
+        <View style={localStyles.arView}>
+          <Games />
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 18, left: 5 }}
+            onPress={prev}
+          >
+            <Text style={{ fontSize: 55, color: colors.last }}>{"<"}</Text>
+            <Text style={localStyles.navButton}>AR VIEW</Text>
+          </TouchableOpacity>
         </View>
       </Swiper>
     </Container>
