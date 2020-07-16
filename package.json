@@ -9,8 +9,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/toolbar-android": "0.1.0-rc.2",
+    "native-base": "2.13.12",
     "react": "16.8.3",
     "react-native": "0.59.9",
+    "react-native-swiper": "1.6.0",
     "react-redux": "7.2.0",
     "react-viro": "2.17.0",
     "redux": "4.0.5"
