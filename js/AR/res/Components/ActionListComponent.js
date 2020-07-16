@@ -30,6 +30,11 @@ const DATA = [
     callback: () =>  Alert.alert('This button will play a smoosh animation')
   },
   {
+    id: 'spinButton',
+    title: 'Spin',
+    callback: () =>  Alert.alert('This button will play a spin animation')
+  },
+  {
     id: 'flipButton',
     title: 'Flip',
     callback: () =>  Alert.alert('This button will play a beg animation')
@@ -37,7 +42,7 @@ const DATA = [
     {
     id: 'batheButton',
     title: 'Bathe',
-    callback: () =>  Alert.alert('This button will play a brush animation')
+    callback: () =>  Alert.alert('This button will send you into the bath screen')
   },
     {
     id: 'petButton',

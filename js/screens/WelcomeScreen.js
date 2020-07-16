@@ -51,7 +51,7 @@ const WelcomeScreen = (props) => {
       />
 
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../Assets/icon2.jpeg")} />
+        <Image style={styles.logo} source={require("../Assets/mishuIcon.jpeg")} />
 
         <Image
           style={styles.logoText}

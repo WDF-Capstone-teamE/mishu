@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react'
 import mishuTransform from './Transform'
-import { Viro3DObject, ViroMaterials } from "react-viro";
+import { Viro3DObject, ViroMaterials, ViroAnimations } from "react-viro"
 import {connect} from 'react-redux'
 import {selectAnimation} from "../store/petAnimation"
 
@@ -16,7 +16,7 @@ class MishuComponent extends Component {
 
         this.state = {
             modelNum: 0,
-            currentAnimation: "01"
+            currentAnimation: "01" // 01 is idle
         }
         this.onTap = this.onTap.bind(this);
 
@@ -39,7 +39,7 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.2, .2, .2]}
+                scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
                 onClick={this.onTap}
@@ -58,26 +58,13 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.2, .2, .2]}
+                scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
                 onClick={this.onTap}
                 animation={{name:currentAnimation, run:true, loop:true,}}
               />
             )
-        }
-    }
-
-    onTap() {
-        if (this.state.currentAnimation === "01"){
-            this.setState({
-                currentAnimation: "02"
-            });
-        }
-        else if (this.state.currentAnimation === "02"){
-            this.setState({
-                currentAnimation: "01"
-            });  
         }
     }
 }
@@ -90,6 +77,37 @@ ViroMaterials.createMaterials({
         diffuseTexture: require("./res/turkeyman_anim/turkeyman_diffuse.jpg")
     }
 });
+
+const initModelScale = .2;
+
+ViroAnimations.registerAnimations({
+    rotate: {
+        properties: {
+            rotateY: "+=90"
+        },
+        duration: 500, //.5 seconds
+    },
+    flatten: {
+        properties: {
+            scaleX: "*=1.75",
+            scaleZ: "*=1.75",
+            scaleY: "*=.5",
+        },
+        easing: "EaseOut",
+        duration: 1500, // 1 second
+    },
+    reset: {
+        properties: {
+            scaleX: initModelScale,
+            scaleZ: initModelScale,
+            scaleY: initModelScale,
+        },
+        easing: 'Bounce',
+        duration: 500, // 1 second
+    },
+    smoosh: [['flatten', 'reset']],
+});
+
 const mapState = (state) => {
   return {
     modelNum: state.petAnimation.modelNum,

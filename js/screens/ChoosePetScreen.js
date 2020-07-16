@@ -62,7 +62,7 @@ const ChoosePetScreen = (props) => {
     style={{ flexDirection: "column", alignItems:"center", margin:30 }} 
     backgroundColor={colors.background}>
         <View style={styles.imgContainer}>
-            <Image style={styles.img} source={require("../Assets/icon2.jpeg")} />
+            <Image style={styles.img} source={require("../Assets/mishuIcon.jpeg")} />
         </View>
         <View style={{ flexDirection: "row", alignItems:"center"}}>
             <ModelButton
@@ -71,7 +71,7 @@ const ChoosePetScreen = (props) => {
             />
         </View> 
         <View style={styles.imgContainer}>
-            <Image style={styles.img} source={require("../Assets/icon2.jpeg")} />
+            <Image style={styles.img} source={require("../Assets/mishuIcon.jpeg")} />
         </View>
         <View style={{ flexDirection: "row", alignItems:"center"}}>
             <ModelButton
