@@ -88,7 +88,10 @@ const ChoosePetScreen = (props) => {
           <AppButton
             text="Continue"
             backgroundColor={colors.secondary}
-            onPress={() => getPet(model)}
+            onPress={() => {
+              getPet(model)
+             return chosePet()}
+          }
           />
         </View>
       </ScrollView>
