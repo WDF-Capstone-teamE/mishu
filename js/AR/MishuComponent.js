@@ -25,7 +25,7 @@ class MishuComponent extends Component {
     }
 
     render() {
-        const {modelNum, currentAnimation} = this.props
+        const {modelNum, currentAnimation, interruptible} = this.props
         let model = "iceCream";
         if(modelNum) model = "turkey";
 
@@ -43,7 +43,7 @@ class MishuComponent extends Component {
 
                 type="VRX"
                 // onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
               />
             )
         } 
@@ -62,7 +62,7 @@ class MishuComponent extends Component {
 
                 type="VRX"
                 // onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
               />
             )
         }
