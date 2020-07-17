@@ -9,7 +9,8 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar
+  StatusBar,
+  TextInput
 } from "react-native";
 
 import colors from "../config/colors";
@@ -37,10 +38,31 @@ const AppButton = ({ onPress, text, backgroundColor }) => (
 
 const ChoosePetScreen = (props) => {
   const [model, setModel] = useState(0)
-  const { chosePet, getPet } = props;
+  const [petName, setPetName] = useState("");
+  const {  getPet } = props;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.text, { fontWeight: "bold", fontSize: 23 }]}>
+            PET NAME
+          </Text>
+          <TextInput
+            style={{
+              height: 30,
+              borderColor: "gray",
+              borderWidth: 2,
+              width: 300,
+            }}
+            enablesReturnKeyAutomatically={true}
+            returnKeyType={"done"}
+            textAlign={"center"}
+            placeholder= "Pet Name"
+            maxLength={25}
+            onChangeText={(text) => setPetName(text)}
+            value={petName}
+          />
+        </View>
         <View style={styles.infoContainer}>
           <Text style={[styles.text, { fontWeight: "bold", fontSize: 25 }]}>
             SELECTED MODEL
@@ -84,11 +106,11 @@ const ChoosePetScreen = (props) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ alignItems: "center", margin: 15 }}>
+        <View style={{ alignItems: "center", margin: 25 }}>
           <AppButton
             text="Continue"
             backgroundColor={colors.secondary}
-            onPress={() => getPet(model)}
+            onPress={() => getPet(model,petName)}
           />
         </View>
       </ScrollView>
@@ -103,7 +125,7 @@ const mapState = (state) => {
 };
 const mapDispatch = dispatch => {
  return {
-   getPet: (modelNum) => dispatch(getPet(modelNum)),
+   getPet: (modelNum,name) => dispatch(getPet(modelNum,name)),
    chosePet: () => dispatch(chosePet())
  };
 }

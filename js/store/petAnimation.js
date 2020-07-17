@@ -16,9 +16,10 @@ export const selectAnimation = () => ({
   type: SELECT_ANIMATION,
   // numString,
 });
-export const getPet = (modelNum) => ({
+export const getPet = (modelNum,name) => ({
   type: PET,
-  modelNum
+  modelNum,
+  name
 })
 
 
@@ -29,6 +30,7 @@ const initialState = {
   modelNum: 0,
   currentAnimation: "01",
   chosen: false,
+  name: ""
 };
 
 
@@ -50,7 +52,7 @@ export default function (state = initialState, action) {
       return { ...state }; 
     }
     case PET:
-      return {...state, modelNum: action.modelNum, chosen: true}   
+      return {...state, modelNum: action.modelNum, chosen: true, name: action.name}   
     default:
       return state;
   }
