@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -9,10 +10,10 @@ import {
 } from "react-native";
 import * as Progress from "react-native-progress";
 
-{
-  /* <Progress.Bar progress={0.3} width={350} />; */
-}
-const Profile = () => {
+import { getHealth, setHappiness,setHunger,setCleanliness } from "../store/progressBars";
+
+const Profile = (props) => {
+  const { progressBar } = props
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -42,7 +43,7 @@ const Profile = () => {
               Health
             </Text>
             <Progress.Bar
-              progress={0.76}
+              progress={progressBar.healthBar * 0.01}
               width={350}
               height={18}
               color="green"
@@ -58,7 +59,7 @@ const Profile = () => {
               Happiness
             </Text>
             <Progress.Bar
-              progress={0.9}
+              progress={progressBar.happinessBar * 0.01}
               width={350}
               height={18}
               color="orange"
@@ -74,7 +75,12 @@ const Profile = () => {
             >
               Hunger
             </Text>
-            <Progress.Bar progress={0.4} width={350} height={18} color="red" />
+            <Progress.Bar
+              progress={progressBar.hungerBar * 0.01}
+              width={350}
+              height={18}
+              color="red"
+            />
           </View>
 
           <View style={styles.infoContainer}>
@@ -86,15 +92,34 @@ const Profile = () => {
             >
               Cleanliness
             </Text>
-            <Progress.Bar progress={0.6} width={350} height={18} color="blue" />
+            <Progress.Bar
+              progress={progressBar.cleanlinessBar * 0.01}
+              width={350}
+              height={18}
+              color="blue"
+            />
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+const mapState = (state) => {
+  return {
+    progressBar: state.progressBars
+  };
+};
+const mapDispatch = (dispatch) => {
+  return {
+    getHealth: () => dispatch(getHealth()),
+    setHappiness: (option, amount) => dispatch(setHappiness((option, amount))),
+    setHunger: (option, amount) => dispatch(setHunger(option, amount)),
+    setCleanliness: (option, amount) => dispatch(setCleanliness(option, amount)),
+  };
+};
 
-export default Profile;
+export default connect(mapState, mapDispatch)(Profile);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -129,3 +154,4 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
 });
+
