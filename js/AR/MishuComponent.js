@@ -15,10 +15,10 @@ class MishuComponent extends Component {
         super();
 
         this.state = {
-            modelNum: 0,
-            currentAnimation: "01" // 01 is idle
+            // modelNum: 0,
+            // currentAnimation: "01" // 01 is idle
         }
-        this.onTap = this.onTap.bind(this);
+        // this.onTap = this.onTap.bind(this);
 
         // every time transform changes, update this mishu component
         mishuTransform.onTransformChange = () => this.setState({...this.state});
@@ -42,7 +42,7 @@ class MishuComponent extends Component {
                 scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
-                onClick={this.onTap}
+                // onClick={this.onTap}
                 animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
               />
             )
@@ -61,12 +61,21 @@ class MishuComponent extends Component {
                 scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
-                onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true,}}
+                // onClick={this.onTap}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
               />
             )
         }
     }
+
+    // onTap() {
+    //         this.setState({
+    //             currentAnimation: 'smoosh'
+    //         });
+
+    // }
+
+    
 }
  
 ViroMaterials.createMaterials({
@@ -89,13 +98,33 @@ ViroAnimations.registerAnimations({
     },
     flatten: {
         properties: {
-            scaleX: "*=1.75",
-            scaleZ: "*=1.75",
-            scaleY: "*=.5",
+            scaleX: "*=1.050",
+            scaleZ: "*=1.050",
+            scaleY: "*=.9666",
+        },
+        easing: "Linear",
+        duration: 50, // 20 ms
+    },
+    smooshFlatten: { // a modified flatten to be chained in smoosh animation
+        properties: {
+            scaleX: initModelScale*1.75,
+            scaleZ: initModelScale*1.75,
+            scaleY: initModelScale*.5,
         },
         easing: "EaseOut",
-        duration: 1500, // 1 second
+        duration: 1500, // 1.5 seconds
     },
+    smoosh: [['smooshFlatten', 'reset']],
+    // squeezeFlatten: {
+    //     properties: {
+    //         scaleX: initModelScale/1.75,
+    //         scaleZ: initModelScale/1.75,
+    //         scaleY: initModelScale/.85,
+    //     },
+    //     easing: "EaseOut",
+    //     duration: 1500, // 1.5 seconds
+    // },
+    // squeeze: [['squeezeFlatten', 'reset']],
     reset: {
         properties: {
             scaleX: initModelScale,
@@ -103,20 +132,20 @@ ViroAnimations.registerAnimations({
             scaleY: initModelScale,
         },
         easing: 'Bounce',
-        duration: 500, // 1 second
+        duration: 500, // .5 seconds
     },
-    smoosh: [['flatten', 'reset']],
 });
 
 const mapState = (state) => {
   return {
     modelNum: state.petAnimation.modelNum,
-    currentAnimation: state.petAnimation.currentAnimation
+    currentAnimation: state.petAnimation.currentAnimation,
+    interruptible: state.petAnimation.interruptible
   };
 };
 const mapDispatch = (dispatch) => {
   return {
-    storeAnimation: () => dispatch(selectAnimation()),
+    selectAnimation: () => dispatch(selectAnimation()),
   };
 };
 
