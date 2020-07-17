@@ -38,7 +38,7 @@ const AppButton = ({ onPress, text, backgroundColor }) => (
 
 const ChoosePetScreen = (props) => {
   const [model, setModel] = useState(0)
-  const [petName, setPetName] = useState("");
+  const [petName, setPetName] = useState("Mishu");
   const {  getPet } = props;
   return (
     <SafeAreaView style={styles.container}>
@@ -57,7 +57,7 @@ const ChoosePetScreen = (props) => {
             enablesReturnKeyAutomatically={true}
             returnKeyType={"done"}
             textAlign={"center"}
-            placeholder= "Pet Name"
+            // placeholder= "Pet Name"
             maxLength={25}
             onChangeText={(text) => setPetName(text)}
             value={petName}
@@ -68,7 +68,7 @@ const ChoosePetScreen = (props) => {
             SELECTED MODEL
           </Text>
           <Text style={[styles.text, { fontWeight: "400", fontSize: 30 }]}>
-            {model ? "Turkey" : "IceCream"}
+            {model ? "Turkey" : "Ice Cream"}
           </Text>
         </View>
 
@@ -83,7 +83,7 @@ const ChoosePetScreen = (props) => {
             </View>
             <View style={styles.infoContainer}>
               <Text style={[styles.text, { fontWeight: "300", fontSize: 25 }]}>
-                IceCream
+                Ice Cream
               </Text>
             </View>
           </TouchableOpacity>
