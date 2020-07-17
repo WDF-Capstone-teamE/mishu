@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react'
 import mishuTransform from './Transform'
-import { Viro3DObject, ViroMaterials } from "react-viro";
+import { Viro3DObject, ViroMaterials, ViroAnimations } from "react-viro"
 import {connect} from 'react-redux'
 import {selectAnimation} from "../store/petAnimation"
 
@@ -15,17 +15,17 @@ class MishuComponent extends Component {
         super();
 
         this.state = {
-            modelNum: 0,
-            currentAnimation: "01"
+            // modelNum: 0,
+            // currentAnimation: "01" // 01 is idle
         }
-        this.onTap = this.onTap.bind(this);
+        // this.onTap = this.onTap.bind(this);
 
         // every time transform changes, update this mishu component
         mishuTransform.onTransformChange = () => this.setState({...this.state});
     }
 
     render() {
-        const {modelNum, currentAnimation} = this.props
+        const {modelNum, currentAnimation, interruptible} = this.props
         let model = "iceCream";
         if(modelNum) model = "turkey";
 
@@ -39,11 +39,11 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.2, .2, .2]}
+                scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
-                onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true, interruptible: true}}
+                // onClick={this.onTap}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
               />
             )
         } 
@@ -58,28 +58,24 @@ class MishuComponent extends Component {
                 position={mishuTransform.getPosition()}
                 rotation={mishuTransform.getRotation()}
 
-                scale={[.2, .2, .2]}
+                scale={[initModelScale, initModelScale, initModelScale]}
 
                 type="VRX"
-                onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true,}}
+                // onClick={this.onTap}
+                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
               />
             )
         }
     }
 
-    onTap() {
-        if (this.state.currentAnimation === "01"){
-            this.setState({
-                currentAnimation: "02"
-            });
-        }
-        else if (this.state.currentAnimation === "02"){
-            this.setState({
-                currentAnimation: "01"
-            });  
-        }
-    }
+    // onTap() {
+    //         this.setState({
+    //             currentAnimation: 'smoosh'
+    //         });
+
+    // }
+
+    
 }
  
 ViroMaterials.createMaterials({
@@ -90,15 +86,66 @@ ViroMaterials.createMaterials({
         diffuseTexture: require("./res/turkeyman_anim/turkeyman_diffuse.jpg")
     }
 });
+
+const initModelScale = .2;
+
+ViroAnimations.registerAnimations({
+    rotate: {
+        properties: {
+            rotateY: "+=90"
+        },
+        duration: 500, //.5 seconds
+    },
+    flatten: {
+        properties: {
+            scaleX: "*=1.050",
+            scaleZ: "*=1.050",
+            scaleY: "*=.9666",
+        },
+        easing: "Linear",
+        duration: 50, // 20 ms
+    },
+    smooshFlatten: { // a modified flatten to be chained in smoosh animation
+        properties: {
+            scaleX: initModelScale*1.75,
+            scaleZ: initModelScale*1.75,
+            scaleY: initModelScale*.5,
+        },
+        easing: "EaseOut",
+        duration: 1500, // 1.5 seconds
+    },
+    smoosh: [['smooshFlatten', 'reset']],
+    // squeezeFlatten: {
+    //     properties: {
+    //         scaleX: initModelScale/1.75,
+    //         scaleZ: initModelScale/1.75,
+    //         scaleY: initModelScale/.85,
+    //     },
+    //     easing: "EaseOut",
+    //     duration: 1500, // 1.5 seconds
+    // },
+    // squeeze: [['squeezeFlatten', 'reset']],
+    reset: {
+        properties: {
+            scaleX: initModelScale,
+            scaleZ: initModelScale,
+            scaleY: initModelScale,
+        },
+        easing: 'Bounce',
+        duration: 500, // .5 seconds
+    },
+});
+
 const mapState = (state) => {
   return {
     modelNum: state.petAnimation.modelNum,
-    currentAnimation: state.petAnimation.currentAnimation
+    currentAnimation: state.petAnimation.currentAnimation,
+    interruptible: state.petAnimation.interruptible
   };
 };
 const mapDispatch = (dispatch) => {
   return {
-    storeAnimation: () => dispatch(selectAnimation()),
+    selectAnimation: () => dispatch(selectAnimation()),
   };
 };
 

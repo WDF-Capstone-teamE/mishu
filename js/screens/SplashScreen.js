@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {
     StyleSheet,
     Platform,
-    ImageBackground
+    ImageBackground,
+    StatusBar
 } from "react-native";
 import colors from "../config/colors";
 

@@ -12,9 +12,10 @@ const PET = 'PET'
 export const getAnimation = () => ({
   type: GET_ANIMATION,
 });
-export const selectAnimation = () => ({
+export const selectAnimation = (animId, interruptible) => ({
   type: SELECT_ANIMATION,
-  // numString,
+  animId,
+  interruptible,
 });
 export const getPet = (modelNum) => ({
   type: PET,
@@ -27,7 +28,8 @@ export const getPet = (modelNum) => ({
  */
 const initialState = {
   modelNum: 0,
-  currentAnimation: "01",
+  currentAnimation: "01",  // 01 is our idle anim
+  interruptible: true,
   chosen: false,
 };
 
@@ -42,11 +44,15 @@ export default function (state = initialState, action) {
     // this is the logic for setting an animation, in order to connect the buttons to an animation
     // simply send in the string that corresponds to that animation on the model
     case SELECT_ANIMATION: {
-      if (state.currentAnimation === "01") {
-        state.currentAnimation = "02";
-      } else if (state.currentAnimation === "02") {
+      if (state.currentAnimation === action.animId) {
         state.currentAnimation = "01";
+        state.interruptible = true;
       }
+
+      else state.currentAnimation = action.animId
+
+      action.interruptible ? state.interruptible = action.interruptible : state.interruptible = true
+      
       return { ...state }; 
     }
     case PET:
