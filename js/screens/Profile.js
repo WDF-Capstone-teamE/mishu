@@ -15,7 +15,8 @@ import * as Progress from "react-native-progress";
 import { getHealth, setHappiness,setHunger,setCleanliness } from "../store/progressBars";
 
 const Profile = (props) => {
-  const { progressBar } = props
+  const { progressBar,petName } = props
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -29,7 +30,7 @@ const Profile = (props) => {
           </View>
           <View style={styles.infoContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              Mishu
+              {petName}
             </Text>
             <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
               Virtual Pet
@@ -108,7 +109,8 @@ const Profile = (props) => {
 };
 const mapState = (state) => {
   return {
-    progressBar: state.progressBars
+    progressBar: state.progressBars,
+    petName: state.petAnimation.name
   };
 };
 const mapDispatch = (dispatch) => {
