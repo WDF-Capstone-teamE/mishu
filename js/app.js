@@ -151,7 +151,7 @@ const mapState = state => {
   console.log(state.pet)
   return {
     show: state.pet.show,
-    chosen: state.pet.chosen
+    chosen: state.petAnimation.chosen
   }
 }
 

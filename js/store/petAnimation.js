@@ -28,6 +28,7 @@ export const getPet = (modelNum) => ({
 const initialState = {
   modelNum: 0,
   currentAnimation: "01",
+  chosen: false
 };
 
 
@@ -49,7 +50,7 @@ export default function (state = initialState, action) {
       return { ...state }; 
     }
     case PET:
-      return {...state, modelNum: 1}   
+      return {...state, modelNum: action.modelNum, chosen: true}   
     default:
       return state;
   }
