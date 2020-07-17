@@ -23,7 +23,7 @@ import Games from "./screens/Games";
 import { ActionListComp } from "./AR/res/Components"
 import colors from "./config/colors";
 
-var InitialARScene = require('./AR/HelloWorldSceneAR');
+var InitialARScene = require('./AR/ARScene');
 
 class Mishu extends Component {
   constructor() {
