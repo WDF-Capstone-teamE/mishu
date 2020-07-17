@@ -3,6 +3,7 @@
  */
 const GET_ANIMATION = "GET_PETS";
 const SELECT_ANIMATION = "SELECT_PET";
+const PET = 'PET'
 
 
 /**
@@ -16,6 +17,10 @@ export const selectAnimation = (animId, interruptible) => ({
   animId,
   interruptible,
 });
+export const getPet = (modelNum) => ({
+  type: PET,
+  modelNum
+})
 
 
 /**
@@ -25,6 +30,7 @@ const initialState = {
   modelNum: 0,
   currentAnimation: "01",  // 01 is our idle anim
   interruptible: true,
+  chosen: false,
 };
 
 
@@ -42,13 +48,13 @@ export default function (state = initialState, action) {
         state.currentAnimation = "01";
         state.interruptible = true;
       }
-
       else state.currentAnimation = action.animId
-
       action.interruptible ? state.interruptible = action.interruptible : state.interruptible = true
       
       return { ...state }; 
-    }    
+    }
+    case PET:
+      return {...state, modelNum: action.modelNum, chosen: true}   
     default:
       return state;
   }

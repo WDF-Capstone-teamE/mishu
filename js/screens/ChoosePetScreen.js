@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { connect } from "react-redux";
 import {
   View,
@@ -6,99 +6,104 @@ import {
   Platform,
   StyleSheet,
   Image,
-  ImageBackground,
+  ScrollView,
   TouchableOpacity,
-  StatusBar,
+  SafeAreaView,
+  StatusBar
 } from "react-native";
 
 import colors from "../config/colors";
-import {selectPet, chosePet} from '../store/petSelection'
+import {chosePet} from '../store/petSelection'
+import { getPet } from "../store/petAnimation";
 
-const ModelButton = ({ onPress, title }) => (
+const AppButton = ({ onPress, text, backgroundColor }) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
       elevation: 8,
-      backgroundColor: colors.secondary,
-      margin: 20,
-      flex: 1,
-      paddingVertical: 10,
-      paddingHorizontal: 12,
-      width: "100%",
-      height: 70,
+      backgroundColor: backgroundColor,
+      borderRadius: 40,
+      width: "50%",
+      height: 60,
+      alignItems: "center",
+      alignContent: "center",
+      justifyContent: "center",
     }}
   >
-    <Text style={styles.appButtonText}>{title}</Text>
+    <Text style={styles.appButtonText}>{text}</Text>
   </TouchableOpacity>
 );
 
-const AppButton = ({ onPress, title }) => (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        elevation: 8,
-        backgroundColor: colors.last,
-        margin: 20,
-        flex: 1,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        width: "100%",
-        height: 70,
-      }}
-    >
-      <Text style={styles.appButtonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-
 
 const ChoosePetScreen = (props) => {
-  const { chosePet, selectPet } = props
+  const [model, setModel] = useState(0)
+  const { chosePet, getPet } = props;
   return (
-    <ImageBackground
-    style={styles.background}
-    source={require("../Assets/welcomeImage.jpg")}
-    >
-    <View 
-    style={{ flexDirection: "column", alignItems:"center", margin:30 }} 
-    backgroundColor={colors.background}>
-        <View style={styles.imgContainer}>
-            <Image style={styles.img} source={require("../Assets/mishuIcon.jpeg")} />
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.text, { fontWeight: "bold", fontSize: 25 }]}>
+            SELECTED MODEL
+          </Text>
+          <Text style={[styles.text, { fontWeight: "400", fontSize: 30 }]}>
+            {model ? "Turkey" : "IceCream"}
+          </Text>
         </View>
-        <View style={{ flexDirection: "row", alignItems:"center"}}>
-            <ModelButton
-            title="IceCream"
-            onPress={() => selectPet()}
-            />
-        </View> 
-        <View style={styles.imgContainer}>
-            <Image style={styles.img} source={require("../Assets/mishuIcon.jpeg")} />
+
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity onPress={() => setModel(0)}>
+            <View style={styles.profileImage}>
+              <Image
+                source={require("../Assets/icecreamselect.jpg")}
+                style={styles.image}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={[styles.text, { fontWeight: "300", fontSize: 25 }]}>
+                IceCream
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: "row", alignItems:"center"}}>
-            <ModelButton
-            title="Turkey"
-            onPress={() => selectPet()}
-            />
+
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity onPress={() => setModel(1)}>
+            <View style={styles.profileImage}>
+              <Image
+                source={require("../Assets/cartoon-turkey.png")}
+                style={styles.image}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.infoContainer}>
+              <Text style={[styles.text, { fontWeight: "300", fontSize: 25 }]}>
+                Turkey
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: "row"}}>
-            <AppButton
-            title="Next"
-            onPress={() => chosePet()}
-            />
+
+        <View style={{ alignItems: "center", margin: 15 }}>
+          <AppButton
+            text="Continue"
+            backgroundColor={colors.secondary}
+            onPress={() => getPet(model)}
+          />
         </View>
-    </View>
-    </ImageBackground>
+      </ScrollView>
+    </SafeAreaView>
   );
-};
+}
 
 const mapState = (state) => {
   return {
-    selectedPet: state.pet.selectedPet,
-    chosen: state.pet.chosen
+    model: state.petAnimation.modelNum,
   };
 };
 const mapDispatch = dispatch => {
  return {
-   selectPet: (pet = {}) => dispatch(selectPet(pet)),
+   getPet: (modelNum) => dispatch(getPet(modelNum)),
    chosePet: () => dispatch(chosePet())
  };
 }
@@ -106,26 +111,36 @@ const mapDispatch = dispatch => {
 export default connect(mapState,mapDispatch)(ChoosePetScreen);
 
 const styles = StyleSheet.create({
-    appButtonText: {
-      fontSize: 16,
-      color: "#fff",
-      fontWeight: "bold",
-      alignSelf: "center",
-      top: 10,
-    },
-    background: {
-      flex: 1,
-      backgroundColor: colors.background,
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      justifyContent: "flex-end",
-      alignItems: "center",
-    },
-    img: {
-        width: 200,
-        height: 200,
-        margin: 20
-    },
-    imgContainer: {
-        alignItems: "center",
-    }
-  });
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  text: {
+    fontFamily: "HelveticaNeue",
+    color: "#52575d",
+  },
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+  },
+  profileImage: {
+    top: 15,
+    width: 200,
+    height: 200,
+    borderRadius: 50,
+    overflow: "hidden",
+  },
+  subText: {
+    fontSize: 12,
+    color: "#AEB5BC",
+    textTransform: "uppercase",
+    fontWeight: "500",
+  },
+  infoContainer: {
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 32,
+  },
+});
