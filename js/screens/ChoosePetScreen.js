@@ -37,7 +37,7 @@ const AppButton = ({ onPress, text, backgroundColor }) => (
 
 const ChoosePetScreen = (props) => {
   const [model, setModel] = useState(0)
-  const { chosePet } = props;
+  const { chosePet, getPet } = props;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -54,7 +54,7 @@ const ChoosePetScreen = (props) => {
           <TouchableOpacity onPress={() => setModel(0)}>
             <View style={styles.profileImage}>
               <Image
-                source={require("../Assets/icecream.jpg")}
+                source={require("../Assets/icecreamselect.jpg")}
                 style={styles.image}
                 resizeMode="center"
               ></Image>
@@ -71,7 +71,7 @@ const ChoosePetScreen = (props) => {
           <TouchableOpacity onPress={() => setModel(1)}>
             <View style={styles.profileImage}>
               <Image
-                source={require("../Assets/icecream.jpg")}
+                source={require("../Assets/cartoon-turkey.png")}
                 style={styles.image}
                 resizeMode="center"
               ></Image>
@@ -88,10 +88,7 @@ const ChoosePetScreen = (props) => {
           <AppButton
             text="Continue"
             backgroundColor={colors.secondary}
-            onPress={() => {
-              getPet(model)
-             return chosePet()}
-          }
+            onPress={() => getPet(model)}
           />
         </View>
       </ScrollView>

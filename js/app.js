@@ -130,7 +130,7 @@ const Swipper = () => {
           )}
         </View>
 
-        <View style={localStyles.slideDefault}>
+        <View style={localStyles.arView}>
           <Games />
           <TouchableOpacity
             style={{ ...localStyles.buttonWrapper, bottom: 18, left: 5 }}
@@ -151,7 +151,7 @@ const mapState = state => {
   console.log(state.pet)
   return {
     show: state.pet.show,
-    chosen: state.pet.chosen
+    chosen: state.petAnimation.chosen
   }
 }
 
