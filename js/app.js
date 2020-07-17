@@ -82,6 +82,7 @@ const Swipper = () => {
         showsPagination={true}
         index={1}
         showsButtons={false}
+        scrollEnabled ={false}
       >
         <View style={localStyles.arView}>
           <Profile />
