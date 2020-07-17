@@ -7,18 +7,23 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import React, { Component } from "react";
-import { StyleSheet, SafeAreaView} from "react-native";
+import React, { Component,useState ,useRef} from "react";
+import { StyleSheet, SafeAreaView, View, Text, Image, TouchableOpacity, Animated} from "react-native";
 import { connect } from "react-redux";
 import { ViroARSceneNavigator } from 'react-viro';
+import { Container, Header, Button } from "native-base";
+import Swiper from "react-native-swiper";
 
 import SplashScreen from "./screens/SplashScreen.js"
 import WelcomeScreen from "./screens/WelcomeScreen";
 import ChoosePetScreen from "./screens/ChoosePetScreen"
 import { DebugButtonsFrameworkComponent } from "./AR/DebugButtonsFramework";
+import Profile from "./screens/Profile";
+import Games from "./screens/Games";
 import { ActionListComp } from "./AR/res/Components"
+import colors from "./config/colors";
 
-var InitialARScene = require('./AR/HelloWorldSceneAR');
+var InitialARScene = require('./AR/ARScene');
 
 class Mishu extends Component {
   constructor() {
@@ -42,20 +47,7 @@ class Mishu extends Component {
     if (show){
       if (chosen){
         return (
-          <SafeAreaView style={localStyles.outer}>
-    
-            {/* render the debug menu if any debug buttons exist */}
-            <DebugButtonsFrameworkComponent />
-            
-            <ViroARSceneNavigator
-              style={localStyles.arView}
-              initialScene={{ scene: InitialARScene }}
-            />
-    
-            <SafeAreaView style={localStyles.actionList}>
-              <ActionListComp />
-            </SafeAreaView>
-          </SafeAreaView>
+          <Swipper />
         )
       }  
       else return <ChoosePetScreen />
@@ -69,12 +61,97 @@ class Mishu extends Component {
     );
   }
 }
+const Swipper = () => {
+  const [actionList, setActionList] = useState(false)
+  const swiperRef = useRef(null);
+  const next = () => {
+    if (!!swiperRef) {
+      swiperRef.current.scrollBy(1);
+    }
+  };
+  const prev = () => {
+    if (!!swiperRef) {
+      swiperRef.current.scrollBy(-1);
+    }
+  };
+  return (
+    <Container>
+      <Swiper
+        ref={swiperRef}
+        loop={false}
+        showsPagination={true}
+        index={1}
+        showsButtons={false}
+      >
+        <View style={localStyles.arView}>
+          <Profile />
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 18, right: 5 }}
+            onPress={next}
+          >
+            <Text style={{ fontSize: 55, color: colors.last }}>{">"}</Text>
+            <Text style={localStyles.navButton}>AR VIEW</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={localStyles.arView}>
+          <SafeAreaView>
+            <DebugButtonsFrameworkComponent />
+          </SafeAreaView>
+
+          <ViroARSceneNavigator
+            style={localStyles.arView}
+            initialScene={{ scene: InitialARScene }}
+          />
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 18, left: 5 }}
+            onPress={prev}
+          >
+            <Text style={{ fontSize: 55, color: colors.last }}>{"<"}</Text>
+            <Text style={localStyles.navButton}>PROFILE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 25, right: "44%" }}
+            onPress={() => setActionList(!actionList)}
+          >
+            <Text style={{ fontSize: 70, color: colors.last }}>{"^"}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 18, right: 5 }}
+            onPress={next}
+          >
+            <Text style={{ fontSize: 55, color: colors.last }}>{">"}</Text>
+            <Text style={localStyles.navButton}>GAMES</Text>
+          </TouchableOpacity>
+          {actionList && (
+            <SafeAreaView style={localStyles.actionList}>
+              <ActionListComp />
+            </SafeAreaView>
+          )}
+        </View>
+
+        <View style={localStyles.arView}>
+          <Games />
+          <TouchableOpacity
+            style={{ ...localStyles.buttonWrapper, bottom: 18, left: 5 }}
+            onPress={prev}
+          >
+            <Text style={{ fontSize: 55, color: colors.last }}>{"<"}</Text>
+            <Text style={localStyles.navButton}>AR VIEW</Text>
+          </TouchableOpacity>
+        </View>
+      </Swiper>
+    </Container>
+  );
+}
+
+
 
 const mapState = state => {
   console.log(state.pet)
   return {
     show: state.pet.show,
-    chosen: state.pet.chosen
+    chosen: state.petAnimation.chosen
   }
 }
 
@@ -92,11 +169,33 @@ var localStyles = StyleSheet.create({
   actionList: {
     flex: 1,
     height: 50,
-    width: '100%',
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    bottom: 0,
-    backgroundColor: '#000000aa'
+    width: "100%",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 110,
+    backgroundColor: "#000000aa",
+  },
+  button: {
+    height: 70,
+    width: 70,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  buttonWrapper: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  navButton: {
+    color: colors.last,
+    fontSize: 10,
+    fontWeight: "bold",
   },
 });
