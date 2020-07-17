@@ -12,6 +12,7 @@ import {
 
 import colors from "../config/colors";
 import {selectPet, chosePet} from '../store/petSelection'
+import { getPet } from "../store/petAnimation";
 
 const ModelButton = ({ onPress, title }) => (
   <TouchableOpacity
@@ -91,14 +92,12 @@ const ChoosePetScreen = (props) => {
 
 const mapState = (state) => {
   return {
-    selectedPet: state.pet.selectedPet,
-    chosen: state.pet.chosen
+    model: state.petAnimation.modelNum
   };
 };
 const mapDispatch = dispatch => {
  return {
-   selectPet: (pet = {}) => dispatch(selectPet(pet)),
-   chosePet: () => dispatch(chosePet())
+   getPet: (modelNum) => dispatch(getPet(modelNum)),
  };
 }
 
