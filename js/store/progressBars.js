@@ -78,13 +78,13 @@ export default function (state = initialState, action) {
       return { ...state, hungerBar: hunger };
     }
     case CLEANLINESS: {
-      let cleanliNess =
+      let cleanliness =
         action.bar.option === "increase"
-          ? state.cleanliNessBar + action.bar.amount
+          ? state.cleanlinessBar + action.bar.amount
           : state.cleanlinessBar - action.bar.amount;
-      if (cleanliNess >= 100) cleanliNess = 100;
-      else if (cleanliNess <= 0) cleanliNess = 0;
-      return { ...state, cleanlinessBar: cleanliNess };
+      if (cleanliness >= 100) cleanliness = 100;
+      else if (cleanliness <= 0) cleanliness = 0;
+      return { ...state, cleanlinessBar: cleanliness };
     }
     default:
       return state;

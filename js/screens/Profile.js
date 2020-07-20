@@ -99,7 +99,7 @@ const Profile = (props) => {
               progress={progressBar.cleanlinessBar * 0.01}
               width={350}
               height={18}
-              color="blue"
+              color="blue" 
             />
           </View>
         </View>
