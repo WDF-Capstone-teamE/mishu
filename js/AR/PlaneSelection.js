@@ -27,17 +27,24 @@ const planeSelector = {
     // are we looking for a plane ?
     enabled: true,
 
-    // array of callbacks to invoke when enabling or disabling
+    // object of callbacks to invoke when enabling or disabling
     // plane selection mode
-    onEnabledCallbacks: [],
+    onEnabledCallbacks: {},
 
     redrawPlaneTargetImage: null,
     
-    registerOnEnableCallback(callback) {
+    // unregister callbacks when components unmount
+    // to prevent memory leaks
+    unregisterOnEnableCallback(name) {
+        delete this.onEnabledCallbacks[name];
+    },
+
+    registerOnEnableCallback(name, callback) {
         // initialize the callback to current enabled state
         callback(this.enabled);
+        
         // store the callback  
-        this.onEnabledCallbacks.push(callback);
+        this.onEnabledCallbacks[name] = callback;
     },
         
     // toggle the plane selection mode on or off
@@ -50,7 +57,7 @@ const planeSelector = {
             this.redrawPlaneTargetImage();
 
         // notify the registered callbacks
-        this.onEnabledCallbacks.forEach(cb => cb(enabled));
+        Object.values(this.onEnabledCallbacks).forEach(cb => cb(enabled));
     },
 
     // clalback given to the Viro AR scene to continuously cehck for

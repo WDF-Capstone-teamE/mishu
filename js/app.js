@@ -23,6 +23,9 @@ import Games from "./screens/Games";
 import { ActionListComp } from "./AR/res/Components"
 import colors from "./config/colors";
 
+import mishuTransform from './AR/Transform'
+import planeSelector from './AR/PlaneSelection';
+
 var InitialARScene = require('./AR/ARScene');
 
 class Mishu extends Component {
@@ -62,7 +65,7 @@ class Mishu extends Component {
   }
 }
 const Swipper = () => {
-  const [actionList, setActionList] = useState(false)
+  const [actionList, setActionList] = useState(true)
   const swiperRef = useRef(null);
   const next = () => {
     if (!!swiperRef) {
@@ -124,7 +127,7 @@ const Swipper = () => {
             <Text style={{ fontSize: 55, color: colors.last }}>{">"}</Text>
             <Text style={localStyles.navButton}>GAMES</Text>
           </TouchableOpacity>
-          {actionList && (
+          {(actionList || !mishuTransform.transformInitialized || planeSelector.enabled) && (
             <SafeAreaView style={localStyles.actionList}>
               <ActionListComp />
             </SafeAreaView>
