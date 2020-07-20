@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { StyleSheet, Text, View,SafeAreaView,StatusBar, TouchableOpacity,Platform } from 'react-native'
+import { connect } from "react-redux";
 
 import RPS from '../minigames/RPS'
 import FeedingGame from "../minigames/FeedingGame/FeedingGame"
