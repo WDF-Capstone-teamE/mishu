@@ -9,6 +9,8 @@ Art/
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View, StatusBar, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import Matter from "matter-js";
+import { connect } from 'react-redux';
+import { setCleanliness } from '../../store/progressBars.js'
 import { GameEngine } from "react-native-game-engine";
 import { Bathtub, Bubbles } from './Entities.js';
 
@@ -57,23 +59,17 @@ Matter.World.add(world, [bathtub]);
 
 
 // game main class component
-export default class CleaningGame extends React.Component {
+class CleaningGame extends React.Component {
   constructor() {
     super();
     // state to control gameflow/gameplay
     this.state = {
-      running: true,
+      gameStart: true,
+      running: false,
+      gameOver: false,
       timer: startingTimer,
       score: 0
     }
-  }
-
-  // callback function for end of game logic
-  finishedGame = () => {
-    Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
-    We can use this function to either => \n
-    1) Reset the game state and allow the user to play again\n
-    2) Navigate automatically back to last page`)
   }
 
   // updateTimer function is called once every second and updates the countdown timer
@@ -81,8 +77,26 @@ export default class CleaningGame extends React.Component {
     this.setState({ timer: --this.state.timer })
 
     if (this.state.timer === 0){
-      this.setState({ running: false })
+      this.stop();
     }
+  }
+
+  start = () => {
+    // exit start screen
+    this.setState({ gameStart: false });
+
+    // initialize game states
+
+    // start game
+    setTimeout( () => { 
+      this.setState({ running: true });
+      setInterval(this.updateTimer, 1000);
+    }, 1000);
+  }
+
+
+  stop = () => {
+    this.setState({ running: false, gameOver: true })
   }
 
   // callback function to set game state based on events
@@ -90,14 +104,6 @@ export default class CleaningGame extends React.Component {
     if(event.type === 'setScore'){
       this.setState({ score: points })
     }
-  }
-
-  componentDidMount() {
-    // display initial brief game explanation
-    Alert.alert(`You will have ${startingTimer} seconds to catch as many watermelon slices as you can.\n
-    remeber to avoid the rocks!`);
-    // wait 3 seconds for person to read exlanation and exit out of alert, then start the timer
-    setTimeout( () => { setInterval(this.updateTimer, 1000); }, 3000);
   }
 
   // entities object is initialized with initial entities that will form the game world
@@ -111,6 +117,22 @@ export default class CleaningGame extends React.Component {
 
   // render the game component view
   render() {
+
+    const { setCleanliness } = this.props;
+    // callback function for end of game logic
+    finishedGame = () => {
+      Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
+      We can use this function to either => \n
+      1) Reset the game state and allow the user to play again\n
+      2) Navigate automatically back to last page`);
+
+      //send game score to redux store to increase health stats
+      setCleanliness('increase', this.state.score); 
+
+      // reset game
+      this.setState({ gameStart: true });
+    }
+
     return (
       <View style={styles.container}>
         <ImageBackground source={background} style={styles.image}>
@@ -144,7 +166,14 @@ export default class CleaningGame extends React.Component {
              <Text style={styles.score}> {'Score: ' + this.state.score}</Text>
           </View>
         </View>
-        {!this.state.running && <TouchableOpacity onPress={this.finishedGame} style={styles.fullScreenButton}>
+        {this.state.gameStart && <TouchableOpacity onPress={this.start} style={styles.fullScreenButton}>
+          <View style={styles.fullScreen}>
+            <Text style={styles.gameOverText}>Start Game</Text>
+            <Text style={styles.gameOverScore}>You will have {startingTimer} seconds to get your pet as clean as you can</Text>
+            <Text style={styles.gameOverScore}>Scrub hard!</Text>
+          </View>
+        </TouchableOpacity>}
+        {this.state.gameOver && <TouchableOpacity onPress={finishedGame} style={styles.fullScreenButton}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over</Text>
             <Text style={styles.gameOverScore}> {'Score: ' + this.state.score}</Text>
@@ -179,7 +208,7 @@ const Physics = (entities, { time }) => {
 const updateGameState = (entities, { dispatch }) => {
 
   // every 20 ticks, (Approx 1/4 sec) dispatch setScore event to set the correct score based on points collected or lost
-  if(tickNum % 20 === 0) dispatch({type: 'setScore'});
+  if(tickNum % 10 === 0) dispatch({type: 'setScore'});
 
   // on every tick, loop through entries objects and remove all items that are beyond our view
   let world = entities["physics"].world;
@@ -197,6 +226,7 @@ const updateGameState = (entities, { dispatch }) => {
 // create bubbles function generates bubbles at random coordinates at the bottome of the screeen
 // frequency of object creation, as well as air friction can both be modified
 let bubbleIds = 0;
+let scrubs = 0;
 const CreateBubbles = (entities, { touches } ) => {
 
   let swipe = touches.find(x => x.type === "move");
@@ -204,8 +234,13 @@ const CreateBubbles = (entities, { touches } ) => {
   // runs every 10 ticks/frames, so roughly 6X/sec
   if(tickNum % 10 === 0)
     entities = createBubble(entities);
-  if(swipe)
+  if(swipe){
+    ++scrubs;
     entities = createBubble(entities);
+
+    if(scrubs % 10 === 0) ++ points;
+  }
+    
   
   // return new list of generated entities to be registered to the game world
   return entities;
@@ -249,7 +284,21 @@ function createBubble(entities) {
 // helper function to generate random number within min and max bounds
 function randomInteger(min, max) {  
   return Math.random() * (max - min) + min; 
-}  
+}
+
+const mapState = (state) => {
+  return {
+    cleanliness: state.progressBars.cleanlinessBar,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+ return {
+  setCleanliness: (action,score) => dispatch(setCleanliness(action, score))
+ };
+}
+
+export default connect(mapState, mapDispatch)(CleaningGame);
 
 // style sheet for all game page components
 // all view components within the outermost container MUST have a position of relative or absolute

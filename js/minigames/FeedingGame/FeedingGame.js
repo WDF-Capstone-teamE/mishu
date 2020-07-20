@@ -9,6 +9,8 @@ Art/
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View, StatusBar, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import Matter from "matter-js";
+import { connect } from 'react-redux';
+import { setHunger } from '../../store/progressBars.js'
 import { GameEngine } from "react-native-game-engine";
 import { Box, Food, Basket, Rock } from './Entities.js';
 
@@ -39,7 +41,7 @@ const engine = Matter.Engine.create({ enableSleeping: false });
 const world = engine.world;
 
 // create initial basket and floor bodies to be rendered later
-const basket = Matter.Bodies.rectangle(width / 2, basketSize, basketSize, basketSize,
+const basket = Matter.Bodies.rectangle(width / 2, height - boxSize - basketSize/2, basketSize, basketSize,
   {
     // I am a basket and I collide with default(floors and walls) and satelites(food and obstacles)
     collisionFilter: {
@@ -63,23 +65,17 @@ Matter.World.add(world, [basket, floor]);
 
 
 // game main class component
-export default class FeedingGame extends React.Component {
+class FeedingGame extends React.Component {
   constructor() {
     super();
     // state to control gameflow/gameplay
     this.state = {
-      running: true,
+      gameStart: true,
+      running: false,
+      gameOver: false,
       timer: startingTimer,
       score: 0
     }
-  }
-
-  // callback function for end of game logic
-  finishedGame = () => {
-    Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
-    We can use this function to either => \n
-    1) Reset the game state and allow the user to play again\n
-    2) Navigate automatically back to last page`)
   }
 
   // updateTimer function is called once every second and updates the countdown timer
@@ -87,8 +83,26 @@ export default class FeedingGame extends React.Component {
     this.setState({ timer: --this.state.timer })
 
     if (this.state.timer === 0){
-      this.setState({ running: false })
+      this.stop();
     }
+  }
+
+  // function to initialize and start game
+  start = () => {
+    // exit start screen
+    this.setState({ gameStart: false });
+
+    // initialize game states
+
+    // start game
+    setTimeout( () => { 
+      this.setState({ running: true });
+      setInterval(this.updateTimer, 1000);
+    }, 1000);
+  }
+
+  stop = () => {
+    this.setState({ running: false, gameOver: true })
   }
 
   // callback function to set game state based on events
@@ -96,14 +110,6 @@ export default class FeedingGame extends React.Component {
     if(event.type === 'setScore'){
       this.setState({ score: points })
     }
-  }
-
-  componentDidMount() {
-    // display initial brief game explanation
-    Alert.alert(`You will have ${startingTimer} seconds to catch as many watermelon slices as you can.\n
-    remeber to avoid the rocks!`);
-    // wait 3 seconds for person to read exlanation and exit out of alert, then start the timer
-    setTimeout( () => { setInterval(this.updateTimer, 1000); }, 3000);
   }
 
   // entities object is initialized with initial entities that will form the game world
@@ -120,9 +126,21 @@ export default class FeedingGame extends React.Component {
 
   // render the game component view
   render() {
+    
+    const { setHealth } = this.props;
+    // callback function for end of game logic
+    finishedGame = () => {
+      Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
+      We can use this function to either => \n
+      1) Reset the game state and allow the user to play again\n
+      2) Navigate automatically back to last page`);
+
+      setHealth('increase', this.state.score); 
+    }
+
     return (
       <View style={styles.container}>
-        <ImageBackground source={background} style={styles.image}>
+        <ImageBackground source={background} style={styles.image} >
         <GameEngine
           ref={ref => {
             this.gameEngine = ref;
@@ -153,7 +171,14 @@ export default class FeedingGame extends React.Component {
              <Text style={styles.score}> {'Score: ' + this.state.score}</Text>
           </View>
         </View>
-        {!this.state.running && <TouchableOpacity onPress={this.finishedGame} style={styles.fullScreenButton}>
+        {this.state.gameStart && <TouchableOpacity onPress={this.start} style={styles.fullScreenButton}>
+          <View style={styles.fullScreen}>
+            <Text style={styles.gameOverText}>Start Game</Text>
+            <Text style={styles.score}> You will have {startingTimer} seconds to catch as many watermelon slices as you can</Text>
+            <Text style={styles.score}> Remember to avoid the rocks!</Text>
+          </View>
+        </TouchableOpacity>}
+        {this.state.gameOver && <TouchableOpacity onPress={finishedGame} style={styles.fullScreenButton}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over</Text>
             <Text style={styles.score}> {'Score: ' + this.state.score}</Text>
@@ -303,7 +328,22 @@ Matter.Events.on(engine, 'collisionStart', ({ pairs }) => {
 // helper function to generate random number within min and max bounds
 function randomInteger(min, max) {  
   return Math.random() * (max - min) + min; 
-}  
+}
+
+const mapState = (state) => {
+  return {
+    hunger: state.progressBars.hungerBar,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+ return {
+  setHealth: (action,score) => dispatch(setHunger(action, score)),
+ };
+}
+
+export default connect(mapState, mapDispatch)(FeedingGame);
+
 
 // style sheet for all game page components
 // all view components within the outermost container MUST have a position of relative or absolute
