@@ -97,6 +97,10 @@ class CleaningGame extends React.Component {
 
   stop = () => {
     this.setState({ running: false, gameOver: true })
+    this.props.setCleanliness("increase", this.state.score);
+    this.props.getHealthBar();
+    points = 0;
+      
   }
 
   // callback function to set game state based on events
@@ -126,11 +130,12 @@ class CleaningGame extends React.Component {
       1) Reset the game state and allow the user to play again\n
       2) Navigate automatically back to last page`);
 
-      points = 0;
+      
 
       //send game score to redux store to increase health stats
       setCleanliness('increase', this.state.score); 
       getHealthBar();
+      points = 0;
       
 
       // reset games
@@ -177,7 +182,7 @@ class CleaningGame extends React.Component {
             <Text style={styles.gameOverScore}>Scrub hard!</Text>
           </View>
         </TouchableOpacity>}
-        {this.state.gameOver && <TouchableOpacity onPress={finishedGame} style={styles.fullScreenButton}>
+        {this.state.gameOver && <TouchableOpacity onPress={this.stop} style={styles.fullScreenButton}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over</Text>
             <Text style={styles.gameOverScore}> {'Score: ' + this.state.score}</Text>
