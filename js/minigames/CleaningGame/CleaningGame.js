@@ -96,7 +96,7 @@ class CleaningGame extends React.Component {
 
 
   stop = () => {
-    this.setState({ running: false, gameOver: true })
+    this.setState({ running: false, gameOver: true, gameStart: true })
     this.props.setCleanliness("increase", this.state.score);
     this.props.getHealthBar();
     points = 0;

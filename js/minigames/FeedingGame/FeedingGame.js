@@ -102,7 +102,7 @@ class FeedingGame extends React.Component {
   }
 
   stop = () => {
-    this.setState({ running: false, gameOver: true })
+    this.setState({ running: false, gameOver: true, gameStart: true })
     points = 0;
     this.props.setHealth("increase", this.state.score);
     this.props.getHealthBar();
