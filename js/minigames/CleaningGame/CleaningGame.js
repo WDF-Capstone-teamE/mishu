@@ -129,7 +129,7 @@ class CleaningGame extends React.Component {
       //send game score to redux store to increase health stats
       setCleanliness('increase', this.state.score); 
 
-      // reset game
+      // reset games
       this.setState({ gameStart: true });
     }
 
