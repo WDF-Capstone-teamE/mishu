@@ -10,8 +10,10 @@ import {setHappiness, getHealth} from '../store/progressBars'
 
 import colors from '../config/colors'
 
-const Games = () => {
+const Games = (props) => {
   const [currentGame,setCurrentGame] = useState(0)
+  const {getHealthBar, setHappiness} = props
+
   const AppButton = () => (
     <TouchableOpacity
       style={{ ...styles.buttonWrapper, bottom: 18, right: 5 }}
@@ -21,11 +23,24 @@ const Games = () => {
       <Text style={styles.navButton}>GAMES</Text>
     </TouchableOpacity>
   );
+
+  const rpsCloseFunction = () => {
+    setHappiness("increase", 15);
+    getHealthBar();
+    return setCurrentGame(0);
+  }
+
   if (currentGame === 1) {
     return (
       <View style={{ flex: 1 }}>
         <RPS />
-        <AppButton />
+        <TouchableOpacity
+          style={{ ...styles.buttonWrapper, bottom: 18, right: 5 }}
+          onPress={() => rpsCloseFunction()}
+        >
+          <Text style={{ fontSize: 55, color: colors.last }}>{"X"}</Text>
+          <Text style={styles.navButton}>GAMES</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -83,11 +98,7 @@ const Games = () => {
   );
   }
 }
-const mapState = (state) => {
-  return {
-    cleanliness: state.progressBars.cleanlinessBar,
-  };
-};
+
 
 const mapDispatch = (dispatch) => {
   return {
@@ -96,7 +107,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(Games);
+export default connect(null, mapDispatch)(Games);
 
 
 const styles = StyleSheet.create({
