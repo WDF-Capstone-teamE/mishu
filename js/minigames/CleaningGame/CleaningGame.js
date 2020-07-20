@@ -126,9 +126,12 @@ class CleaningGame extends React.Component {
       1) Reset the game state and allow the user to play again\n
       2) Navigate automatically back to last page`);
 
+      points = 0;
+
       //send game score to redux store to increase health stats
       setCleanliness('increase', this.state.score); 
       getHealthBar();
+      
 
       // reset games
       this.setState({ gameStart: true });
