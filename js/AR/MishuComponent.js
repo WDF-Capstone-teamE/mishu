@@ -1,13 +1,15 @@
 /*
-    the actual mishu component, 
-    just a wrapper around drawing a box for now
+    the actual mishu component
 */
 
 import React, { Component } from 'react'
-import mishuTransform from './Transform'
+import transform from './Transform'
 import { Viro3DObject, ViroMaterials, ViroAnimations } from "react-viro"
-import {connect} from 'react-redux'
-import {selectAnimation} from "../store/petAnimation"
+import { connect } from 'react-redux'
+import { selectAnimation } from "../store/petAnimation"
+import { Alert } from 'react-native';
+
+const initModelScale = .2;
 
 class MishuComponent extends Component {
 
@@ -15,67 +17,46 @@ class MishuComponent extends Component {
         super();
 
         this.state = {
-            // modelNum: 0,
-            // currentAnimation: "01" // 01 is idle
+            foundInitialPlane: false
         }
-        // this.onTap = this.onTap.bind(this);
 
         // every time transform changes, update this mishu component
-        mishuTransform.onTransformChange = () => this.setState({...this.state});
+        transform.onTransformChange = () => this.setState({...this.state, foundInitialPlane: true});
+    }
+
+    // preload the models
+    componentWillMount() {
+        this.iceCream = require('./res/icecreamman_anim/icecreamman_anim_a.vrx');
+        this.turkey = require('./res/turkeyman_anim/turkeyman_anim.vrx');
+
+        Alert.alert("Find A Flat Surface For Mishu");
+    }
+
+    onInitialPlaneFound(anchor) {
+        transform.setPosition(...anchor.position);
+
+        //
     }
 
     render() {
         const {modelNum, currentAnimation, interruptible} = this.props
-        let model = "iceCream";
-        if(modelNum) model = "turkey";
-
-        if(model === "iceCream"){
-            return (
-                <Viro3DObject
-
-                source={require('./res/icecreamman_anim/icecreamman_anim_a.vrx')}
-                materials={["iceCreamMaterials"]}
-
-                position={mishuTransform.getPosition()}
-                rotation={mishuTransform.getRotation()}
-
-                scale={[initModelScale, initModelScale, initModelScale]}
-
-                type="VRX"
-                // onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
-              />
-            )
-        } 
-
-        else if(model === "turkey"){
-            return (
-                <Viro3DObject
-
-                source={require('./res/turkeyman_anim/turkeyman_anim.vrx')}
-                materials={["turkeyMaterials"]}
-
-                position={mishuTransform.getPosition()}
-                rotation={mishuTransform.getRotation()}
-
-                scale={[initModelScale, initModelScale, initModelScale]}
-
-                type="VRX"
-                // onClick={this.onTap}
-                animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
-              />
-            )
-        }
+        
+        let modelPath = modelNum ? this.turkey : this.iceCream;
+        let modelMaterial = modelNum ? 'turkeyMaterials' : 'iceCreamMaterials';
+        
+        return <Viro3DObject
+            source={modelPath}
+            materials={[modelMaterial]}
+            position={transform.getPosition()} rotation={transform.getRotation()}
+            scale={[
+                initModelScale * (this.state.foundInitialPlane ? 1 : 0), 
+                initModelScale * (this.state.foundInitialPlane ? 1 : 0), 
+                initModelScale * (this.state.foundInitialPlane ? 1 : 0)
+            ]}
+            type="VRX"
+            animation={{name:currentAnimation, run:true, loop:true, interruptible: interruptible}}
+        />
     }
-
-    // onTap() {
-    //         this.setState({
-    //             currentAnimation: 'smoosh'
-    //         });
-
-    // }
-
-    
 }
  
 ViroMaterials.createMaterials({
@@ -86,8 +67,6 @@ ViroMaterials.createMaterials({
         diffuseTexture: require("./res/turkeyman_anim/turkeyman_diffuse.jpg")
     }
 });
-
-const initModelScale = .2;
 
 ViroAnimations.registerAnimations({
     rotate: {

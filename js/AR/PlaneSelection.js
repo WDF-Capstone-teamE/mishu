@@ -25,7 +25,7 @@ const planeSelector = {
     },
 
     // are we looking for a plane ?
-    enabled: false,
+    enabled: true,
 
     // array of callbacks to invoke when enabling or disabling
     // plane selection mode

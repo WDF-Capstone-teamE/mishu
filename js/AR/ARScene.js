@@ -25,35 +25,32 @@ the plane selector
 */
 
 planeSelector.registerOnEnableCallback((enabled) => {
-    
-  // add buttons to the debug menu to disable and enable the plane selector
-  debugButtonsFramework.removeButton(`${enabled ? "Enable" : "Disable"} Plane Select`)
-
-  debugButtonsFramework.addButton(`${enabled ? "Disable" : "Enable"} Plane Select`, () => {
-      planeSelector.enable(!enabled);
-  });
-
-  // if teh plane selector is enabled add a button to set
-  // the transform position of the pet to the 
-  // plane selector's found "hit point"
-  if (enabled) {
-      debugButtonsFramework.addButton("Move Pet To Spot", () => {
-
-          // first check if the planeSelector has a point to put
-          // the pet on
-          if (planeSelector.hasFlatSurfacePoint()) {
-              // set the transform position
-              mishuTransform.setPosition(...planeSelector.hitPoint);
-          }
-          else {
-              // just display an alert for now if we try to move the pet
-              // without a surface detected
-              Alert.alert("Nope!", "Mishu needs a flat surface to stand on!");
-          }
-      });
+  
+  if (enabled)
+  {
+    debugButtonsFramework.removeButton(`Move Mishu`)
+    debugButtonsFramework.addButton(`Go!`, () => {
+      // first check if the planeSelector has a point to put
+      // the pet on
+      if (planeSelector.hasFlatSurfacePoint()) {
+        // set the transform position
+        mishuTransform.setPosition(...planeSelector.hitPoint);
+      }
+      else {
+        // just display an alert for now if we try to move the pet
+        // without a surface detected
+        Alert.alert("Nope!", "Mishu needs a flat surface to stand on!");
+      }
+      
+      planeSelector.enable(false);
+    });  
   }
-  else {
-      debugButtonsFramework.removeButton("Move Pet To Spot");
+  else 
+  {
+    debugButtonsFramework.removeButton(`Go!`)
+    debugButtonsFramework.addButton(`Move Mishu`, () => {
+      planeSelector.enable(true);
+    });
   }
 });
 /*
