@@ -5,12 +5,47 @@ import RPS from '../minigames/RPS'
 import FeedingGame from "../minigames/FeedingGame/FeedingGame"
 import CleaningGame from "../minigames/CleaningGame/CleaningGame";
 
+import {setHappiness, getHealth} from '../store/progressBars'
+
+import colors from '../config/colors'
+
 const Games = () => {
   const [currentGame,setCurrentGame] = useState(0)
-  if (currentGame === 1) return <RPS />
-  else if (currentGame === 2) return <CleaningGame />
-  else if (currentGame === 3) return <FeedingGame />;
-  else {
+  const AppButton = () => (
+    <TouchableOpacity
+      style={{ ...styles.buttonWrapper, bottom: 18, right: 5 }}
+      onPress={() => setCurrentGame(0)}
+    >
+      <Text style={{ fontSize: 55, color: colors.last }}>{"X"}</Text>
+      <Text style={styles.navButton}>GAMES</Text>
+    </TouchableOpacity>
+  );
+  if (currentGame === 1) {
+    return (
+      <View style={{ flex: 1 }}>
+        <RPS />
+        <AppButton />
+      </View>
+    );
+  }
+  else if (currentGame === 2) {
+    return (
+      <View style={{ flex: 1 }}>
+        <CleaningGame />
+        <AppButton />
+      </View>
+    );
+    
+  }
+  else if (currentGame === 3) {
+    return (
+      <View style={{ flex: 1 }}>
+        <FeedingGame />
+        <AppButton />
+      </View>
+    ); 
+    
+  } else {
   return (
     <SafeAreaView>
       <View style={{ alignItems: "center" }}>
@@ -47,8 +82,20 @@ const Games = () => {
   );
   }
 }
+const mapState = (state) => {
+  return {
+    cleanliness: state.progressBars.cleanlinessBar,
+  };
+};
 
-export default Games
+const mapDispatch = (dispatch) => {
+  return {
+    setHappiness: (action, score) => dispatch(setHappiness(action, score)),
+    getHealthBar: () => dispatch(getHealth()),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Games);
 
 
 const styles = StyleSheet.create({
@@ -83,6 +130,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     marginTop: 32,
+  },
+  buttonWrapper: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  navButton: {
+    color: colors.last,
+    fontSize: 10,
+    fontWeight: "bold",
   },
 });
 

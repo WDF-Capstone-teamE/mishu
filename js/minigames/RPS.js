@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     },
     bottom: {
         justifyContent: 'flex-end',
-        marginBottom: 36,
+        marginBottom: 100,
         width: "100%",
         alignItems: "center",
     }
