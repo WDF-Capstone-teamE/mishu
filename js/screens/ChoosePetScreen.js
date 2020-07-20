@@ -49,7 +49,7 @@ const ChoosePetScreen = (props) => {
           </Text>
           <TextInput
             style={{
-              height: 30,
+              height: 45,
               borderColor: "gray",
               borderWidth: 2,
               width: 300,

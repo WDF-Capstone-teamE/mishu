@@ -135,6 +135,7 @@ class FeedingGame extends React.Component {
       1) Reset the game state and allow the user to play again\n
       2) Navigate automatically back to last page`);
 
+      points = 0;
       setHealth('increase', this.state.score); 
       getHealthBar();
     }
