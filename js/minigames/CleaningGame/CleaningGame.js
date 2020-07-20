@@ -10,7 +10,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View, StatusBar, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import Matter from "matter-js";
 import { connect } from 'react-redux';
-import { setCleanliness } from '../../store/progressBars.js'
+import { setCleanliness, getHealth } from '../../store/progressBars.js'
 import { GameEngine } from "react-native-game-engine";
 import { Bathtub, Bubbles } from './Entities.js';
 
@@ -118,9 +118,9 @@ class CleaningGame extends React.Component {
   // render the game component view
   render() {
 
-    const { setCleanliness } = this.props;
+    const { setCleanliness, getHealthBar } = this.props;
     // callback function for end of game logic
-    finishedGame = () => {
+    const finishedGame = () => {
       Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
       We can use this function to either => \n
       1) Reset the game state and allow the user to play again\n
@@ -128,6 +128,7 @@ class CleaningGame extends React.Component {
 
       //send game score to redux store to increase health stats
       setCleanliness('increase', this.state.score); 
+      getHealthBar();
 
       // reset games
       this.setState({ gameStart: true });
@@ -294,7 +295,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
  return {
-  setCleanliness: (action,score) => dispatch(setCleanliness(action, score))
+   setCleanliness: (action, score) => dispatch(setCleanliness(action, score)),
+   getHealthBar: () => dispatch(getHealth()),
  };
 }
 

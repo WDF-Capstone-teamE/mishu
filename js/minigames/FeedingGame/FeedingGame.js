@@ -10,7 +10,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View, StatusBar, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import Matter from "matter-js";
 import { connect } from 'react-redux';
-import { setHunger } from '../../store/progressBars.js'
+import { setHunger, getHealth } from '../../store/progressBars.js'
 import { GameEngine } from "react-native-game-engine";
 import { Box, Food, Basket, Rock } from './Entities.js';
 
@@ -127,15 +127,16 @@ class FeedingGame extends React.Component {
   // render the game component view
   render() {
     
-    const { setHealth } = this.props;
+    const { setHealth,getHealthBar } = this.props;
     // callback function for end of game logic
-    finishedGame = () => {
+    const finishedGame = () => {
       Alert.alert(`This function is called after the GameOver Screen is displayed and the user has tapped on it.\n
       We can use this function to either => \n
       1) Reset the game state and allow the user to play again\n
       2) Navigate automatically back to last page`);
 
       setHealth('increase', this.state.score); 
+      getHealthBar();
     }
 
     return (
@@ -339,6 +340,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
  return {
   setHealth: (action,score) => dispatch(setHunger(action, score)),
+  getHealthBar: () => dispatch(getHealth())
  };
 }
 
