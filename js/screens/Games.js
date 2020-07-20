@@ -14,6 +14,11 @@ const Games = () => {
   return (
     <SafeAreaView>
       <View style={{ alignItems: "center" }}>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.text, { fontWeight: "bold", fontSize: 35 }]}>
+            Games
+          </Text>
+        </View>
         <TouchableOpacity onPress={() => setCurrentGame(1)}>
           <View style={styles.infoContainer}>
             <Text style={[styles.text, { fontWeight: "300", fontSize: 25 }]}>

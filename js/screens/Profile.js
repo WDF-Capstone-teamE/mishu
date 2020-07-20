@@ -76,7 +76,7 @@ const Profile = (props) => {
                 { fontWeight: "300", fontSize: 20, marginBottom: 10 },
               ]}
             >
-              Hunger
+              Satisfaction
             </Text>
             <Progress.Bar
               progress={progressBar.hungerBar * 0.01}
