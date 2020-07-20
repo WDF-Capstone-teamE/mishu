@@ -1,71 +1,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-
-import { ViroARScene, ViroConstants, ViroAmbientLight, ViroDirectionalLight } from 'react-viro';
-
+import { ViroARScene, ViroAmbientLight, ViroDirectionalLight } from 'react-viro';
 import MishuComponent from './MishuComponent';
 import { planeSelector, PlaneSelectorComponent } from './PlaneSelection';
 
-import mishuTransform from './Transform'
-import { debugButtonsFramework } from './DebugButtonsFramework';
-
-import { Alert } from 'react-native';
-
-
-
-
-/*
-===========================
-vvvvvvvvvvv   DEBUG ONLY:: Remove when we have an actual UI vvvvvvvvvvv
-===========================
-
-just adding some buttons here to test the functionality of
-the plane selector
-*/
-
-planeSelector.registerOnEnableCallback((enabled) => {
-  
-  if (enabled)
-  {
-    debugButtonsFramework.removeButton(`Move Mishu`)
-    debugButtonsFramework.addButton(`Go!`, () => {
-      // first check if the planeSelector has a point to put
-      // the pet on
-      if (planeSelector.hasFlatSurfacePoint()) {
-        // set the transform position
-        mishuTransform.setPosition(...planeSelector.hitPoint);
-      }
-      else {
-        // just display an alert for now if we try to move the pet
-        // without a surface detected
-        Alert.alert("Nope!", "Mishu needs a flat surface to stand on!");
-      }
-      
-      planeSelector.enable(false);
-    });  
-  }
-  else 
-  {
-    debugButtonsFramework.removeButton(`Go!`)
-    debugButtonsFramework.addButton(`Move Mishu`, () => {
-      planeSelector.enable(true);
-    });
-  }
-});
-/*
-===========================
-^^^^^^^^^^^   DEBUG ONLY:: Remove when we have an actual UI ^^^^^^^^^^^
-===========================
-*/
-
-
-export default class HelloWorldSceneAR extends Component {
+export default class ARScene extends Component {
 
   constructor() {
     super();
     this.state = { };
-    this._onInitialized = this._onInitialized.bind(this);
   }
 
   render() {
@@ -96,15 +40,6 @@ export default class HelloWorldSceneAR extends Component {
       </React.Fragment>
     )
   }
-
-  _onInitialized(state, reason) {
-    if (state == ViroConstants.TRACKING_NORMAL) {
-      console.log("Viro Tracking Initialized!");
-    } 
-    else if (state == ViroConstants.TRACKING_NONE) {
-      console.error("Viro Tracking Error!\n", reason);
-    }
-  }
 }
 
-module.exports = HelloWorldSceneAR;
+module.exports = ARScene;
