@@ -39,7 +39,7 @@ const Games = (props) => {
           onPress={() => rpsCloseFunction()}
         >
           <Text style={{ fontSize: 55, color: colors.last }}>{"X"}</Text>
-          <Text style={styles.navButton}>GAMES</Text>
+          <Text style={styles.navButton}>EXIT</Text>
         </TouchableOpacity>
       </View>
     );
