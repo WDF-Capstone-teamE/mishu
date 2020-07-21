@@ -23,7 +23,7 @@ const sateliteSize = Math.trunc(Math.max(width, height) * 0.075)/2;
 // get background image
 const background = require('./Art/background.png');
 // set constant variable for starting time
-const startingTimer = 30;
+const startingTimer = 10;
 
 // create tick variable that will increment on each tick to store total time
 let tickNum = 0;
@@ -102,7 +102,10 @@ class FeedingGame extends React.Component {
   }
 
   stop = () => {
-    this.setState({ running: false, gameOver: true })
+    this.setState({ running: false, gameOver: true, gameStart: true })
+    points = 0;
+    this.props.setHealth("increase", this.state.score);
+    this.props.getHealthBar();
   }
 
   // callback function to set game state based on events
@@ -180,7 +183,7 @@ class FeedingGame extends React.Component {
             <Text style={styles.score}> Remember to avoid the rocks!</Text>
           </View>
         </TouchableOpacity>}
-        {this.state.gameOver && <TouchableOpacity onPress={finishedGame} style={styles.fullScreenButton}>
+        {this.state.gameOver && <TouchableOpacity onPress={this.stop} style={styles.fullScreenButton}>
           <View style={styles.fullScreen}>
             <Text style={styles.gameOverText}>Game Over</Text>
             <Text style={styles.score}> {'Score: ' + this.state.score}</Text>

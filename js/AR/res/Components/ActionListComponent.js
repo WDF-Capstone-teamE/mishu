@@ -94,7 +94,7 @@ class ActionList extends Component {
       }
       else 
       {
-        movePetButton.title = "Move Mishu";
+        movePetButton.title = "Move Pet";
         movePetButton.callback = () => {
           planeSelector.enable(true);
         };
