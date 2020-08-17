@@ -4,6 +4,26 @@ A cross-platform augmented-reality virtual pet app.
 
 This was created as our capstone project for Fullstack Academy.
 
+Video Demo:
+https://www.youtube.com/watch?v=WcfIsGzXOOo
+
+-----------------------------------
+Personal Demo Instructions:
+
+Download the ‘viro media app’ for your device
+Google Play Store: https://play.google.com/store/apps/details?id=com.viromedia.viromedia&hl=en_US
+Apple App Store: https://apps.apple.com/us/app/viro-media/id1163100576
+
+
+Open the app and click the top left button (looks like a three-lined equal sign)
+
+Press “Enter Testbed”
+Run "npm start" in the project repo and enter the ngrok.io address provided.
+
+After pressing ‘GO’ you’ll have to wait momentarily (~30-60 seconds) while your device pulls the necessary files to run the application. May require shaking the device and pressing ‘reload’.
+
+-----------------------------------
+
 **Team Members:**
 <br>[Tiffany Sanchez](https://github.com/tiffany-sj)
 <br>[Simon Tse](https://github.com/stse416)
